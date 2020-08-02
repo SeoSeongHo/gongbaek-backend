@@ -1,0 +1,27 @@
+package gb.gongbaek.v1.backend.domain
+
+import com.fasterxml.jackson.annotation.JsonIgnore
+import javax.persistence.*
+
+@Entity
+@Table(name = "comments")
+data class Comment(
+
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long? = null,
+
+        var content: String,
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "user_id")
+        var user: User,
+
+        @JsonIgnore
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "post_id")
+        var post: Post
+
+
+): EntityAuditing(){
+
+}
