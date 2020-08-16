@@ -1,10 +1,10 @@
 package gb.gongbaek.v1.backend.service
 
 import gb.gongbaek.v1.backend.domain.User
+import gb.gongbaek.v1.backend.dto.SignInDto
+import gb.gongbaek.v1.backend.dto.SignUpDto
 
 interface UserService {
-    fun findUsers(): MutableList<User>
-    fun findUser(id: Long): User
-    fun createUser(user: User): Long
-    fun updateUser(id: Long, user: User): Long
+    fun signUp(signUpReq: SignUpDto.SignUpReq)
+    fun signIn(signInReq: SignInDto.SignInReq): SignInDto.SignInRes
 }
