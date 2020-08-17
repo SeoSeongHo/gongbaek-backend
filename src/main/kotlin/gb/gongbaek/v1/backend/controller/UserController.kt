@@ -30,16 +30,6 @@ class UserController(
     @PostMapping("/signIn")
     fun signIn(@RequestBody signInReq: SignInDto.SignInReq): ResponseEntity<SignInDto.SignInRes>{
 
-        try{
-            userService.signIn(signInReq)
-        }
-        catch (e: WrongPasswordException){
-            val test = 3
-        }
-        catch (e: Exception){
-            val test2 = 4
-        }
-
         return ResponseEntity
                 .ok()
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
