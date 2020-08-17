@@ -1,8 +1,11 @@
 package gb.gongbaek.v1.backend.exception.handler
 
 import gb.gongbaek.v1.backend.exception.DuplicateEmailException
+import gb.gongbaek.v1.backend.exception.EmailNotFoundException
+import gb.gongbaek.v1.backend.exception.JwtValidationException
 import gb.gongbaek.v1.backend.exception.WrongPasswordException
 import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.badRequest
+import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.notFound
 import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.serverError
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
@@ -21,8 +24,15 @@ class ExceptionHandler {
     fun duplicateEmailException(exception: DuplicateEmailException) =
             badRequest(exception.message!!)
 
+    @ExceptionHandler(EmailNotFoundException::class)
+    fun emailNotFoundException(exception: EmailNotFoundException) =
+            notFound(exception.message!!)
+
     @ExceptionHandler(WrongPasswordException::class)
     fun wrongPasswordException(exception: WrongPasswordException) =
             badRequest(exception.message!!)
 
+    @ExceptionHandler(JwtValidationException::class)
+    fun jwtValidationException(exception: JwtValidationException) =
+            badRequest(exception.message!!)
 }
