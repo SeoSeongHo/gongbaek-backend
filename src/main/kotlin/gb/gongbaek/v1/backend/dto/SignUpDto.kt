@@ -28,4 +28,10 @@ class SignUpDto {
                 isNotificationAgreed = isNotificationAgreed
         )
     }
+
+    data class SignUpRes(
+
+            val email: String,
+            val token: String
+    )
 }

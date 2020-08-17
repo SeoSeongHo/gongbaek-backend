@@ -21,12 +21,14 @@ class UserServiceImpl(
         @Autowired private val jwtTokenProvider: JwtTokenProvider
 ): UserService{
 
-    override fun signUp(signUpReq: SignUpDto.SignUpReq) {
+    override fun signUp(signUpReq: SignUpDto.SignUpReq): SignUpDto.SignUpRes {
 
         if(userRepository.existsByEmail(signUpReq.email))
             throw DuplicateEmailException("duplicate email: ${signUpReq.email}")
 
-        userRepository.save(signUpReq.toEntity(bCryptPasswordEncoder))
+        val createdUser = userRepository.save(signUpReq.toEntity(bCryptPasswordEncoder))
+
+        return SignUpDto.SignUpRes(email = createdUser.email, token = jwtTokenProvider.createToken(createdUser.id!!))
     }
 
     override fun signIn(signInReq: SignInDto.SignInReq): SignInDto.SignInRes {
