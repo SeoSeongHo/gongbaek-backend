@@ -20,3 +20,14 @@ logging.level:
 jwt:
   secretKey: fjdalkklamclkmalwefwajiejviajfilkamdlkdmclkmkadmkmfjwaeilkcmdlksmaclksmlk
   expiredTime: 1000
+
+aws:
+  s3:
+    academy:
+      img:
+        bucket: gongbaek.v1.backend
+        dir: academy/img
+
+      list:
+        bucket: gongbaek.v1.backend
+        dir: academy/list

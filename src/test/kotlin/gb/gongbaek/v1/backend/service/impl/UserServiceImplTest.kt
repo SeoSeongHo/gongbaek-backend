@@ -3,7 +3,7 @@ package gb.gongbaek.v1.backend.service.impl
 import gb.gongbaek.v1.backend.domain.UserType
 import gb.gongbaek.v1.backend.dto.SignUpDto
 import gb.gongbaek.v1.backend.repository.UserRepository
-import gb.gongbaek.v1.backend.service.UserService
+import gb.gongbaek.v1.backend.service.user.UserService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
