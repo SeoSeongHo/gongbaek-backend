@@ -18,8 +18,12 @@ logging.level:
   org.hibernate.type.BasicTypeRegistry: warn
 
 jwt:
-  secretKey: fjdalkklamclkmalwefwajiejviajfilkamdlkdmclkmkadmkmfjwaeilkcmdlksmaclksmlk
-  expiredTime: 1000
+  access:
+    secret.key: afdlsflkadklmlckamkldmflkamipejapiwiklsdmklmalkfsmklamlfmlkamdsfmaweijdlksmd
+    expire.time: 100000000
+  refresh:
+    secret.key: afdlsflkadklmlckamkldmflkamipejapiwiklsdmklmalkfsmklamlfmlkamdsfmaweijdlqwer
+    expire.time: 10000000000
 
 aws:
   s3:

@@ -1,9 +1,6 @@
 package gb.gongbaek.v1.backend.exception.handler
 
-import gb.gongbaek.v1.backend.exception.DuplicateEmailException
-import gb.gongbaek.v1.backend.exception.EmailNotFoundException
-import gb.gongbaek.v1.backend.exception.JwtValidationException
-import gb.gongbaek.v1.backend.exception.WrongPasswordException
+import gb.gongbaek.v1.backend.exception.*
 import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.badRequest
 import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.notFound
 import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.serverError
@@ -34,5 +31,13 @@ class ExceptionHandler {
 
     @ExceptionHandler(JwtValidationException::class)
     fun jwtValidationException(exception: JwtValidationException) =
+            badRequest(exception.message!!)
+
+    @ExceptionHandler(ExpiredRefreshTokenException::class)
+    fun expiredRefreshTokenException(exception: ExpiredRefreshTokenException) =
+            badRequest(exception.message!!)
+
+    @ExceptionHandler(RefreshTokenNotFoundException::class)
+    fun refreshTokenNotFoundException(exception: RefreshTokenNotFoundException) =
             badRequest(exception.message!!)
 }

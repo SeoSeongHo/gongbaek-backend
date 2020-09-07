@@ -1,6 +1,7 @@
 package gb.gongbaek.v1.backend.dto
 
 import gb.gongbaek.v1.backend.domain.User
+import gb.gongbaek.v1.backend.domain.UserInfo
 import gb.gongbaek.v1.backend.domain.UserType
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import javax.persistence.EnumType
@@ -24,19 +25,33 @@ class SignUpDto {
             val isNotificationAgreed: Boolean
     ){
         fun toEntity(bCryptPasswordEncoder: BCryptPasswordEncoder) = User(
-                nickname = nickname,
                 email = email,
                 password = bCryptPasswordEncoder.encode(password),
-                contact = contact,
-                type = UserType.UNSPECIFIED,
-                isServiceTermsAgreed = isServiceTermsAgreed,
-                isNotificationAgreed = isNotificationAgreed
+                userInfo = UserInfo(
+                        nickname = nickname,
+                        contact = contact,
+                        type = UserType.UNSPECIFIED,
+                        isServiceTermsAgreed = isServiceTermsAgreed,
+                        isNotificationAgreed = isNotificationAgreed
+                )
         )
     }
 
     data class SignUpRes(
 
-            val email: String,
-            val token: String
-    )
+            val access_token: String,
+            val refresh_token: String,
+            val user: UserDto.UserRes
+    ){
+        companion object{
+            fun toDto(accessToken: String, refreshToken: String, user: User): SignUpRes {
+                return SignUpRes(
+                        access_token = accessToken,
+                        refresh_token = accessToken,
+                        user = user.toDto(user)
+                )
+            }
+        }
+
+    }
 }

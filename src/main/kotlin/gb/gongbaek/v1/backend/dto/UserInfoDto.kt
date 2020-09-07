@@ -9,13 +9,14 @@ class UserInfoDto {
     data class UserInfoReq(
 
             @Enumerated(EnumType.STRING)
-            val type: UserType
+            var type: UserType,
+
+            var nickname: String,
+            var contact: String,
+
+            // 이용약관 동의
+            var isServiceTermsAgreed: Boolean,
+            // SNS 등 알림 동의
+            var isNotificationAgreed: Boolean
     )
-
-    data class UserInfoRes(
-
-            val email: String
-    ){
-
-    }
 }
