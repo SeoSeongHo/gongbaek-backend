@@ -6,6 +6,7 @@ import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.no
 import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.serverError
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
+import org.springframework.security.core.AuthenticationException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -18,26 +19,22 @@ import java.util.*
 class ExceptionHandler {
 
     @ExceptionHandler(DuplicateEmailException::class)
-    fun duplicateEmailException(exception: DuplicateEmailException) =
+    fun handleDuplicateEmailException(exception: DuplicateEmailException) =
             badRequest(exception.message!!)
 
     @ExceptionHandler(EmailNotFoundException::class)
-    fun emailNotFoundException(exception: EmailNotFoundException) =
+    fun handleEmailNotFoundException(exception: EmailNotFoundException) =
             notFound(exception.message!!)
 
     @ExceptionHandler(WrongPasswordException::class)
-    fun wrongPasswordException(exception: WrongPasswordException) =
-            badRequest(exception.message!!)
-
-    @ExceptionHandler(JwtValidationException::class)
-    fun jwtValidationException(exception: JwtValidationException) =
+    fun handleWrongPasswordException(exception: WrongPasswordException) =
             badRequest(exception.message!!)
 
     @ExceptionHandler(ExpiredRefreshTokenException::class)
-    fun expiredRefreshTokenException(exception: ExpiredRefreshTokenException) =
+    fun handleExpiredRefreshTokenException(exception: ExpiredRefreshTokenException) =
             badRequest(exception.message!!)
 
     @ExceptionHandler(RefreshTokenNotFoundException::class)
-    fun refreshTokenNotFoundException(exception: RefreshTokenNotFoundException) =
+    fun handleRefreshTokenNotFoundException(exception: RefreshTokenNotFoundException) =
             badRequest(exception.message!!)
 }

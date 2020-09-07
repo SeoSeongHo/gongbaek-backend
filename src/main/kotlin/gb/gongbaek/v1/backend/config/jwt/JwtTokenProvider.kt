@@ -73,7 +73,6 @@ class JwtTokenProvider(
     }
 
     private fun getClaims(token: String): Claims {
-        val test = Jwts.parser().setSigningKey(accessTokenSecretKey).parseClaimsJws(token).body
         return Jwts.parser().setSigningKey(accessTokenSecretKey).parseClaimsJws(token).body
     }
 }
