@@ -18,7 +18,10 @@ data class User (
         var password: String,
 
         @Embedded
-        var userInfo: UserInfo
+        var userInfo: UserInfo,
+
+        @OneToMany(fetch = FetchType.LAZY)
+        var likes: List<Like>
 ): EntityAuditing() {
 
     fun isRightPassword(bCryptPasswordEncoder: BCryptPasswordEncoder, rawPassword: String): Boolean{
