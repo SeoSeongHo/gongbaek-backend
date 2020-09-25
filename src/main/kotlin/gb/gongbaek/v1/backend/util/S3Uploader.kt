@@ -2,14 +2,13 @@ package gb.gongbaek.v1.backend.util
 
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.CannedAccessControlList
+import com.amazonaws.services.s3.model.GetObjectRequest
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.util.*
 
 @Component
@@ -53,5 +52,20 @@ class S3Uploader(
             return Optional.of(convertFile)
         }
         return Optional.empty()
+    }
+
+    // TODO
+    fun get(bucketName: String, keyName: String){
+
+        val findObject = amazonS3Client.getObject(GetObjectRequest(bucketName, keyName))
+
+
+    }
+
+    @Throws(IOException::class)
+    private fun readInputStream(input: InputStream){
+
+        val reader = BufferedReader(InputStreamReader(input))
+
     }
 }

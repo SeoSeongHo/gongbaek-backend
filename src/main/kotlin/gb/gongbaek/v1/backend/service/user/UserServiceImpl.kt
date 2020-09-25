@@ -3,6 +3,7 @@ package gb.gongbaek.v1.backend.service.user
 import gb.gongbaek.v1.backend.config.jwt.JwtTokenProvider
 import gb.gongbaek.v1.backend.domain.BlackList
 import gb.gongbaek.v1.backend.domain.RefreshTokenJob
+import gb.gongbaek.v1.backend.domain.User
 import gb.gongbaek.v1.backend.dto.*
 import gb.gongbaek.v1.backend.exception.*
 import gb.gongbaek.v1.backend.repository.BlackListRepository
@@ -14,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import java.util.*
 
 @Service
 @Transactional
@@ -26,6 +26,14 @@ class UserServiceImpl(
         @Autowired private val jwtTokenProvider: JwtTokenProvider,
         @Value("\${jwt.refresh.expire.time}") private val refreshTokenExpiredTime: Long
 ): UserService {
+
+    override fun getUserById(id: Long): User =
+            userRepository.findById(id).orElseThrow { throw UserNotFoundException("") }
+
+
+    override fun getUserByEmail(email: String): User =
+            userRepository.findByEmail(email) ?: throw UserNotFoundException("")
+
 
     override fun signUp(signUpReq: SignUpDto.SignUpReq): SignUpDto.SignUpRes {
 
@@ -49,8 +57,7 @@ class UserServiceImpl(
 
     override fun signIn(signInReq: SignInDto.SignInReq): SignInDto.SignInRes {
 
-        val findUser = userRepository.findByEmail(signInReq.email)
-        findUser ?: throw EmailNotFoundException("can not find user. email: ${signInReq.email}")
+        val findUser = getUserByEmail(signInReq.email)
 
         // check password
         if(!findUser.isRightPassword(bCryptPasswordEncoder, signInReq.password)) throw WrongPasswordException("wrong password exception.")
@@ -88,13 +95,18 @@ class UserServiceImpl(
 
     override fun updateUserInfo(userInfoReq: UserInfoDto.UserInfoReq, userId: Long): UserDto.UserRes{
 
-        val user = userRepository.findById(userId)
-        if(!user.isPresent) throw UserNotFoundException("can not find user.")
+        val user = getUserById(userId)
 
-        user.get().updateUserInfo(userInfoReq)
+        try{
+            user.updateUserInfo(userInfoReq)
+        }
+        catch(e: Exception){
+            throw Exception("failed to update user info. ${e.message}")
+        }
 
-        return user.get().toDto(user.get())
+        return user.toDto()
     }
+
 
     override fun isDuplicateNickname(nickname: String): Boolean{
 

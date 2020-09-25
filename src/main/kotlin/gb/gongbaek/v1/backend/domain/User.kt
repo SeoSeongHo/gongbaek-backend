@@ -36,11 +36,11 @@ data class User (
         userInfo.isServiceTermsAgreed = userInfoReq.isServiceTermsAgreed
     }
 
-    fun toDto(user: User): UserDto.UserRes {
+    fun toDto(): UserDto.UserRes {
         return UserDto.UserRes(
-                id = user.id!!,
-                email = user.email,
-                userInfo = user.userInfo
+                id = id!!,
+                email = email,
+                userInfo = userInfo
         )
     }
 }

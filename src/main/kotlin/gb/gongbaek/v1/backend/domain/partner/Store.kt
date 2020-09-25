@@ -1,31 +1,32 @@
 package gb.gongbaek.v1.backend.domain.partner
 
 import gb.gongbaek.v1.backend.domain.Like
+import gb.gongbaek.v1.backend.domain.Recommendation
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
-import javax.persistence.*
+import javax.persistence.DiscriminatorValue
+import javax.persistence.Entity
 
 @Entity
 @DiscriminatorValue("S")
-// 독서실
-data class StudyRoom(
+// 스토어
+data class Store(
         override val id: Long? = null,
         override val name: String,
         override val address: Address,
         override var isConfirmed: Boolean,
         override var likes: List<Like>,
 
-        var validationImageUrl: String, // validationImageUrl
-        var contact: String,
-        var depositor: String
-): Partner(id, PartnerType.STUDY_ROOM, name, address, isConfirmed, likes) {
+        var imageUrl: String
+): Partner(id, PartnerType.STORE, name, address, isConfirmed, likes) {
+
 
     override fun toHomeCard(isLiked: Boolean) = HomeCardDto.Card(
-            partnerType = PartnerType.ACADEMY,
+            partnerType = PartnerType.STORE,
             partnerId = id!!,
-            imageUrl = validationImageUrl,
+            imageUrl = imageUrl,
             name = name,
-            location = address.roadAddress,
+            location = "",
             isLiked = isLiked,
             totalLikes = getTotalLikes()
     )

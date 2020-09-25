@@ -1,24 +1,29 @@
 package gb.gongbaek.v1.backend.domain.partner
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import gb.gongbaek.v1.backend.domain.EntityAuditing
 import gb.gongbaek.v1.backend.domain.Like
+import gb.gongbaek.v1.backend.domain.Recommendation
+import gb.gongbaek.v1.backend.dto.HomeCardDto
+import gb.gongbaek.v1.backend.dto.PartnerType
 import javax.persistence.*
 
-// TODO 다중상속 처리하기
-@Entity
-abstract class Partner(
-){
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
-    lateinit var name: String
-    @Embedded
-    lateinit var address: Address
-    var isConfirmed: Boolean? = false
+@MappedSuperclass
+@DiscriminatorColumn(name = "dtype")
+abstract class  Partner(
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        open val id: Long? = null,
+        open val type: PartnerType,
+        open val name: String,
+        @Embedded
+        open val address: Address,
+        open var isConfirmed: Boolean,
+        @JsonIgnore
+        @OneToMany(mappedBy = "partner")
+        open var likes: List<Like> = mutableListOf()
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "partner")
-    var likes: List<Like> = mutableListOf()
+): EntityAuditing() {
 
-
-    fun getLikesCount() = likes.size
+    fun getTotalLikes() = likes.size
+    abstract fun toHomeCard(isLiked: Boolean): HomeCardDto.Card
 }

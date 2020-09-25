@@ -4,6 +4,9 @@ import gb.gongbaek.v1.backend.domain.User
 import gb.gongbaek.v1.backend.dto.*
 
 interface UserService {
+    fun getUserById(id: Long): User
+    fun getUserByEmail(email: String): User
+
     fun signUp(signUpReq: SignUpDto.SignUpReq): SignUpDto.SignUpRes
     fun signIn(signInReq: SignInDto.SignInReq): SignInDto.SignInRes
     fun logout(oAuthReq: OAuthDto.OAuthReq)
