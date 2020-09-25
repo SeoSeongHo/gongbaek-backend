@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class PartnerServiceImpl(
-        @Autowired private val partnerRepository: PartnerRepository,
+        @Autowired private val partnerRepository: PartnerRepository
 ): PartnerService {
 
     override fun getPartnerById(partnerId: Long): Partner =

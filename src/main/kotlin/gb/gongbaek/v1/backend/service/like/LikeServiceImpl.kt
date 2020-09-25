@@ -25,9 +25,8 @@ class LikeServiceImpl(
     fun updateLikes(userId: Long, likeReq: LikeDto.LikeReq){
 
         val user = userService.getUserById(userId)
-        val partner = partnerService.get
-        if(!partner.isPresent) throw PartnerNotFoundException("")
+        val partner = partnerService.getPartnerById(likeReq.partnerId)
 
-        likeRepository.save(Like.toLike(user.get(), partner.get()))
+        likeRepository.save(Like.toLike(user, partner))
     }
 }
