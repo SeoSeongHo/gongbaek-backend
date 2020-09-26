@@ -14,7 +14,7 @@ data class Like (
         @JoinColumn(name = "user_id")
         var user: User,
 
-        @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "partner_id")
         var partner: Partner
 ){

@@ -20,8 +20,9 @@ data class User (
         @Embedded
         var userInfo: UserInfo,
 
-        @OneToMany(fetch = FetchType.LAZY)
-        var likes: List<Like>
+        @JsonIgnore
+        @OneToMany(mappedBy = "user")
+        var likes: List<Like> = ArrayList()
 ): EntityAuditing() {
 
     fun isRightPassword(bCryptPasswordEncoder: BCryptPasswordEncoder, rawPassword: String): Boolean{

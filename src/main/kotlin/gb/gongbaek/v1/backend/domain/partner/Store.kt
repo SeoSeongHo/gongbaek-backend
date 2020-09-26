@@ -4,11 +4,13 @@ import gb.gongbaek.v1.backend.domain.Like
 import gb.gongbaek.v1.backend.domain.Recommendation
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
+import gb.gongbaek.v1.backend.dto.partner.PartnerDto
+import gb.gongbaek.v1.backend.dto.partner.StoreDto
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
 
 @Entity
-@DiscriminatorValue("S")
+@DiscriminatorValue("T")
 // 스토어
 data class Store(
         override val id: Long? = null,
@@ -28,6 +30,15 @@ data class Store(
             name = name,
             location = "",
             isLiked = isLiked,
+            totalLikes = getTotalLikes()
+    )
+
+    override fun toDto() = StoreDto.StoreRes(
+            id = id,
+            type = type,
+            name = name,
+            address = address,
+            isConfirmed = isConfirmed,
             totalLikes = getTotalLikes()
     )
 }

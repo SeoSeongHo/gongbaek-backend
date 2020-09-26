@@ -1,13 +1,13 @@
 package gb.gongbaek.v1.backend.domain.partner
 
-import gb.gongbaek.v1.backend.domain.EntityAuditing
 import gb.gongbaek.v1.backend.domain.Like
-import gb.gongbaek.v1.backend.domain.Recommendation
-import gb.gongbaek.v1.backend.dto.AcademyDto
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
-import org.jetbrains.annotations.NotNull
-import javax.persistence.*
+import gb.gongbaek.v1.backend.dto.partner.AcademyDto
+import javax.persistence.DiscriminatorValue
+import javax.persistence.Embeddable
+import javax.persistence.Embedded
+import javax.persistence.Entity
 
 @Entity
 @DiscriminatorValue("A")
@@ -33,6 +33,15 @@ data class Academy (
             name = name + branchName,
             location = address.roadAddress,
             isLiked = isLiked,
+            totalLikes = getTotalLikes()
+    )
+
+    override fun toDto() = AcademyDto.AcademyRes(
+            id = id,
+            type = type,
+            name = name,
+            address = address,
+            isConfirmed = isConfirmed,
             totalLikes = getTotalLikes()
     )
 

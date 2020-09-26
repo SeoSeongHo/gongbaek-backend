@@ -33,7 +33,8 @@ class SignUpDto {
                         type = UserType.UNSPECIFIED,
                         isServiceTermsAgreed = isServiceTermsAgreed,
                         isNotificationAgreed = isNotificationAgreed
-                )
+                ),
+                likes = mutableListOf()
         )
     }
 
@@ -47,8 +48,8 @@ class SignUpDto {
             fun toDto(accessToken: String, refreshToken: String, user: User): SignUpRes {
                 return SignUpRes(
                         access_token = accessToken,
-                        refresh_token = accessToken,
-                        user = user.toDto(user)
+                        refresh_token = refreshToken,
+                        user = user.toDto()
                 )
             }
         }

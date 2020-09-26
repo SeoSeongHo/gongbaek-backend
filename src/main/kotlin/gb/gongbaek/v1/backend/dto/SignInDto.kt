@@ -22,7 +22,7 @@ class SignInDto {
                 return SignInRes(
                         accessToken = accessToken,
                         refreshToken = refreshToken,
-                        user = user.toDto(user)
+                        user = user.toDto()
                 )
             }
         }

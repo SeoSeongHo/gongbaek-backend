@@ -3,6 +3,8 @@ package gb.gongbaek.v1.backend.domain.partner
 import gb.gongbaek.v1.backend.domain.Like
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
+import gb.gongbaek.v1.backend.dto.partner.PartnerDto
+import gb.gongbaek.v1.backend.dto.partner.StudyRoomDto
 import javax.persistence.*
 
 @Entity
@@ -27,6 +29,15 @@ data class StudyRoom(
             name = name,
             location = address.roadAddress,
             isLiked = isLiked,
+            totalLikes = getTotalLikes()
+    )
+
+    override fun toDto() = StudyRoomDto.StudyRoomRes(
+            id = id,
+            type = type,
+            name = name,
+            address = address,
+            isConfirmed = isConfirmed,
             totalLikes = getTotalLikes()
     )
 }
