@@ -15,7 +15,7 @@ data class StudyRoom(
         override val name: String,
         override val address: Address,
         override var isConfirmed: Boolean,
-        override var likes: List<Like>,
+        override var likes: MutableList<Like>,
 
         var validationImageUrl: String, // validationImageUrl
         var contact: String,

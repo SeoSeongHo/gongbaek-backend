@@ -8,11 +8,13 @@ import gb.gongbaek.v1.backend.dto.PartnerType
 import gb.gongbaek.v1.backend.dto.partner.PartnerDto
 import javax.persistence.*
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
 abstract class Partner(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         open val id: Long? = null,
+        @Enumerated(EnumType.STRING)
         open val type: PartnerType,
         open val name: String,
         @Embedded
@@ -20,7 +22,7 @@ abstract class Partner(
         open var isConfirmed: Boolean,
         @JsonIgnore
         @OneToMany(mappedBy = "partner")
-        open var likes: List<Like> = ArrayList()
+        open var likes: MutableList<Like> = mutableListOf()
 
 ): EntityAuditing() {
 

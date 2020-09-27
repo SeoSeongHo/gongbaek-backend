@@ -17,7 +17,7 @@ data class Academy (
         override val name: String,
         override val address: Address,
         override var isConfirmed: Boolean,
-        override var likes: List<Like>,
+        override var likes: MutableList<Like>,
 
         var branchName: String? = null,
         @Embedded

@@ -17,7 +17,7 @@ data class Store(
         override val name: String,
         override val address: Address,
         override var isConfirmed: Boolean,
-        override var likes: List<Like>,
+        override var likes: MutableList<Like>,
 
         var imageUrl: String
 ): Partner(id, PartnerType.STORE, name, address, isConfirmed, likes) {
