@@ -19,4 +19,9 @@ class UserInfoDto {
             // SNS 등 알림 동의
             var isNotificationAgreed: Boolean
     )
+
+    data class UserTypeReq(
+            @Enumerated(EnumType.STRING)
+            val type: UserType
+    )
 }

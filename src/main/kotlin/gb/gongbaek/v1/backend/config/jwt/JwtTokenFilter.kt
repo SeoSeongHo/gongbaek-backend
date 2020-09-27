@@ -17,6 +17,7 @@ class JwtTokenFilter(
         private val jwtTokenProvider: JwtTokenProvider,
         private val restAuthenticationEntryPoint: RestAuthenticationEntryPoint
 ): GenericFilterBean() {
+
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
         request ?: throw Exception()
 
@@ -34,6 +35,5 @@ class JwtTokenFilter(
             SecurityContextHolder.clearContext()
             restAuthenticationEntryPoint.commence(request as HttpServletRequest, response as HttpServletResponse, authenticationException)
         }
-
     }
 }

@@ -1,6 +1,7 @@
 package gb.gongbaek.v1.backend.service.user
 
 import gb.gongbaek.v1.backend.domain.User
+import gb.gongbaek.v1.backend.domain.UserType
 import gb.gongbaek.v1.backend.dto.*
 
 interface UserService {
@@ -17,4 +18,5 @@ interface UserService {
     fun isDuplicateNickname(nickname: String): Boolean
     fun isDuplicateEmail(email: String): Boolean
     fun isBlackListToken(accessToken: String): Boolean
+    fun updateUserType(userTypeReq: UserInfoDto.UserTypeReq, userId: Long): SignInDto.SignInRes
 }

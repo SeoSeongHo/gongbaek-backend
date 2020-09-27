@@ -12,6 +12,7 @@ data class Recommendation(
         @Enumerated(EnumType.STRING)
         var category: RecommendCategory,
         @Column(unique = true)
+        @Enumerated(EnumType.STRING)
         var title: RecommendTitle,
         var description: String
 

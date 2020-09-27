@@ -22,7 +22,7 @@ data class User (
 
         @JsonIgnore
         @OneToMany(mappedBy = "user")
-        var likes: List<Like> = ArrayList()
+        var likes: MutableList<Like> = mutableListOf()
 ): EntityAuditing() {
 
     fun isRightPassword(bCryptPasswordEncoder: BCryptPasswordEncoder, rawPassword: String): Boolean{

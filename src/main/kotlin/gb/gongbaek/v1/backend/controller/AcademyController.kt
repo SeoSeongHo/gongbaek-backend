@@ -35,8 +35,12 @@ class AcademyController(
     }
 
     @PostMapping
-    fun createAcademy(academyReq: AcademyDto.CreateAcademyReq){
-        academyService.createAcademy(academyReq)
+    fun createAcademy(@RequestBody academyReq: AcademyDto.CreateAcademyReq): ResponseEntity<PartnerDto>{
+        val academy = academyService.createAcademy(academyReq)
+
+        return ResponseEntity
+                .ok()
+                .body(academy.toDto())
     }
 
     @PostMapping("/confirm/{id}")
@@ -45,7 +49,7 @@ class AcademyController(
     }
 
     @PostMapping("/{id}")
-    fun updateAcademy(@PathVariable id: Long, updateAcademyReq: AcademyDto.UpdateAcademyReq){
+    fun updateAcademy(@PathVariable id: Long, @RequestBody updateAcademyReq: AcademyDto.UpdateAcademyReq){
 
     }
 }

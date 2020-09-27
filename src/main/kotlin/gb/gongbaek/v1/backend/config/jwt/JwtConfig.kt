@@ -16,5 +16,4 @@ class JwtConfig(
         val filter = JwtTokenFilter(jwtTokenProvider, restAuthenticationEntryPoint)
         builder?.addFilterBefore(filter, UsernamePasswordAuthenticationFilter::class.java)
     }
-
 }

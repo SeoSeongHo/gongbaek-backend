@@ -1,5 +1,6 @@
 package gb.gongbaek.v1.backend.config.jwt
 
+import gb.gongbaek.v1.backend.domain.UserType
 import gb.gongbaek.v1.backend.dto.auth.AuthPrincipal
 import gb.gongbaek.v1.backend.exception.JwtBlackListException
 import gb.gongbaek.v1.backend.exception.JwtValidationException
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.stereotype.Component
 import java.util.*
 import javax.servlet.http.HttpServletRequest
@@ -25,9 +28,12 @@ class JwtTokenProvider(
         @Autowired private val blackListRepository: BlackListRepository
 ) {
 
-    fun createAccessToken(userId: Long): String{
+    fun createAccessToken(userId: Long, userType: UserType = UserType.UNSPECIFIED): String{
         val claims: Claims = Jwts.claims().setSubject(userId.toString())
         val validity = Date(Date().time + accessTokenExpiredTime)
+
+        // TODO need to test it can be compiled by just enum type.
+        claims["role"] = userType.toString()
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -37,9 +43,12 @@ class JwtTokenProvider(
                 .compact()
     }
 
-    fun createRefreshToken(userId: Long): String{
+    fun createRefreshToken(userId: Long, userType: UserType = UserType.UNSPECIFIED): String{
         val claims: Claims = Jwts.claims().setSubject(userId.toString())
         val validity = Date(Date().time + refreshTokenExpiredTime)
+
+        // TODO need to test it can be compiled by just enum type.
+        claims["role"] = userType.toString()
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -50,8 +59,13 @@ class JwtTokenProvider(
     }
 
     fun getAuthentication(token: String): Authentication{
-        val principal = AuthPrincipal(getClaims(token).subject.toLong())
-        return UsernamePasswordAuthenticationToken(principal, "", mutableListOf())
+        val claims = getClaims(token)
+        val roles: MutableList<GrantedAuthority> = mutableListOf()
+        val role = claims["role"] as String
+        roles.add(SimpleGrantedAuthority("ROLE_${role}"))
+        val principal = AuthPrincipal.of(claims)
+
+        return UsernamePasswordAuthenticationToken(principal, "", roles)
     }
 
     fun resolveToken(req: HttpServletRequest): String? {

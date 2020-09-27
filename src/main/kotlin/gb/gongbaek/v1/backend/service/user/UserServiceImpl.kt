@@ -4,6 +4,7 @@ import gb.gongbaek.v1.backend.config.jwt.JwtTokenProvider
 import gb.gongbaek.v1.backend.domain.BlackList
 import gb.gongbaek.v1.backend.domain.RefreshTokenJob
 import gb.gongbaek.v1.backend.domain.User
+import gb.gongbaek.v1.backend.domain.UserType
 import gb.gongbaek.v1.backend.dto.*
 import gb.gongbaek.v1.backend.exception.*
 import gb.gongbaek.v1.backend.repository.BlackListRepository
@@ -105,6 +106,22 @@ class UserServiceImpl(
         }
 
         return user.toDto()
+    }
+
+    override fun updateUserType(userTypeReq: UserInfoDto.UserTypeReq, userId: Long): SignInDto.SignInRes {
+
+        val user = getUserById(userId)
+
+        user.userInfo.type = userTypeReq.type
+
+        val accessToken = jwtTokenProvider.createAccessToken(user.id!!, userTypeReq.type)
+        val refreshToken = jwtTokenProvider.createRefreshToken(user.id!!, userTypeReq.type)
+
+        return SignInDto.SignInRes(
+                accessToken = accessToken,
+                refreshToken = refreshToken,
+                user = user.toDto()
+        )
     }
 
 
