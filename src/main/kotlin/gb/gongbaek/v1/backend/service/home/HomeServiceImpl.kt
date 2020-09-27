@@ -15,7 +15,7 @@ class HomeServiceImpl(
         @Autowired private val likeService: LikeService
 ): HomeService {
 
-    fun getCards(category: RecommendCategory, userId: Long? = null): List<HomeCardDto.HomeCardRes> {
+    override fun getCards(category: RecommendCategory, userId: Long?): List<HomeCardDto.HomeCardRes> {
 
         val recommendModule = recommendationTrigger.getRecommendModule(category)
         val recommendations = recommendModule.getRecommendations()
