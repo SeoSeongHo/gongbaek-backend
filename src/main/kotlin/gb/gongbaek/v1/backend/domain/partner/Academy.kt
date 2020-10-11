@@ -20,7 +20,6 @@ data class Academy (
         override var likes: MutableList<Like>,
 
         var branchName: String? = null,
-        @Embedded
         var contact: String,
         var businessRegistration: String,
         var imageUrl: String

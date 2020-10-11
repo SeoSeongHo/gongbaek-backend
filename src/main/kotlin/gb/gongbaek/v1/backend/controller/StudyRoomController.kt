@@ -1,7 +1,9 @@
 package gb.gongbaek.v1.backend.controller
 
+import gb.gongbaek.v1.backend.dto.partner.PartnerDto
 import gb.gongbaek.v1.backend.service.partner.studyRoom.StudyRoomService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
@@ -33,7 +35,7 @@ class StudyRoomController(
     }
 
     @PostMapping("/{id}")
-    fun updateStudyRoom(){
+    fun updateStudyRoom(@PathVariable id: Long){
 
     }
 }

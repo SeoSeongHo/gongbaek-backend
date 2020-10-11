@@ -28,6 +28,7 @@ class HomeCardDto {
 enum class PartnerType {
     ACADEMY,
     STUDY_ROOM,
+    READING_ROOM,
     STORE
 }
 

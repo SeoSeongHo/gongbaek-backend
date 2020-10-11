@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/w/api/v1//home")
+@RequestMapping("/web/api/v1/home")
 class WebHomeController(
         @Autowired private val homeService: HomeService
 ) {

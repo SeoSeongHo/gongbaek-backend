@@ -20,6 +20,7 @@ class HomeServiceImpl(
         val recommendModule = recommendationTrigger.getRecommendModule(category)
         val recommendations = recommendModule.getRecommendations()
 
+        // TODO triggerModule 에 user 정보 넘겨서 추천해주는 기능
         return recommendations.map { recommendation -> HomeCardDto.HomeCardRes(
                 title = recommendation.title,
                 description = recommendation.description,

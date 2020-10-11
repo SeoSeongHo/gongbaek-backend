@@ -14,7 +14,6 @@ class AcademyController(
         @Autowired private val academyService: AcademyService
 ) {
 
-    
     @GetMapping
     fun getAcademies(): ResponseEntity<List<PartnerDto>>{
 
@@ -35,7 +34,6 @@ class AcademyController(
                 .body(academy.toDto())
     }
 
-    //@PreAuthorize("hasUserRole('')")
     @PostMapping
     fun createAcademy(@RequestBody academyReq: AcademyDto.CreateAcademyReq): ResponseEntity<PartnerDto>{
         val academy = academyService.createAcademy(academyReq)
