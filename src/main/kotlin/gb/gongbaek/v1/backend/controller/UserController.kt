@@ -1,6 +1,6 @@
 package gb.gongbaek.v1.backend.controller
 
-import gb.gongbaek.v1.backend.domain.UserType
+import gb.gongbaek.v1.backend.domain.UserRole
 import gb.gongbaek.v1.backend.dto.*
 import gb.gongbaek.v1.backend.dto.auth.AuthPrincipal
 import gb.gongbaek.v1.backend.service.user.UserService
@@ -74,8 +74,8 @@ class UserController(
     }
 
     @PostMapping("/update/type")
-    fun updateUserType(@AuthenticationPrincipal authPrincipal: AuthPrincipal, @RequestBody userTypeReq: UserInfoDto.UserTypeReq): ResponseEntity<SignInDto.SignInRes>{
-        val updatedUser = userService.updateUserType(userTypeReq, authPrincipal.userId)
+    fun updateUserRole(@AuthenticationPrincipal authPrincipal: AuthPrincipal, @RequestBody UserRoleReq: UserInfoDto.UserRoleReq): ResponseEntity<SignInDto.SignInRes>{
+        val updatedUser = userService.updateUserRole(UserRoleReq, authPrincipal.userId)
         return ResponseEntity
                 .ok()
                 .body(updatedUser)

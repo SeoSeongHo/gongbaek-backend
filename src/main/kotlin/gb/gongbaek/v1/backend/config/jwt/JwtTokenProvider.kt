@@ -1,6 +1,6 @@
 package gb.gongbaek.v1.backend.config.jwt
 
-import gb.gongbaek.v1.backend.domain.UserType
+import gb.gongbaek.v1.backend.domain.UserRole
 import gb.gongbaek.v1.backend.dto.auth.AuthPrincipal
 import gb.gongbaek.v1.backend.exception.JwtBlackListException
 import gb.gongbaek.v1.backend.exception.JwtValidationException
@@ -28,44 +28,33 @@ class JwtTokenProvider(
         @Autowired private val blackListRepository: BlackListRepository
 ) {
 
-    fun createAccessToken(userId: Long, userType: UserType = UserType.UNSPECIFIED): String{
+    fun createToken(userId: Long, isAccessToken: Boolean = true, userRole: UserRole = UserRole.UNSPECIFIED): String {
         val claims: Claims = Jwts.claims().setSubject(userId.toString())
-        val validity = Date(Date().time + accessTokenExpiredTime)
 
-        // TODO need to test it can be compiled by just enum type.
-        claims["role"] = userType.toString()
+        val expiredTime = if(isAccessToken) accessTokenExpiredTime else refreshTokenExpiredTime
+        val secretKey = if(isAccessToken) accessTokenSecretKey else refreshTokenSecretKey
+
+        val validity = Date(Date().time + expiredTime)
+
+        claims["UserRole"] = userRole.toString()
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(Date())
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS512, accessTokenSecretKey)
-                .compact()
-    }
-
-    fun createRefreshToken(userId: Long, userType: UserType = UserType.UNSPECIFIED): String{
-        val claims: Claims = Jwts.claims().setSubject(userId.toString())
-        val validity = Date(Date().time + refreshTokenExpiredTime)
-
-        // TODO need to test it can be compiled by just enum type.
-        claims["role"] = userType.toString()
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(Date())
-                .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS512, refreshTokenSecretKey)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact()
     }
 
     fun getAuthentication(token: String): Authentication{
         val claims = getClaims(token)
-        val roles: MutableList<GrantedAuthority> = mutableListOf()
-        val role = claims["role"] as String
-        roles.add(SimpleGrantedAuthority("ROLE_${role}"))
-        val principal = AuthPrincipal.of(claims)
 
-        return UsernamePasswordAuthenticationToken(principal, "", roles)
+        // add UserRoles
+        val UserRoles: MutableList<GrantedAuthority> = mutableListOf()
+        val UserRole = claims["UserRole"] as String
+        UserRoles.add(SimpleGrantedAuthority("UserRole_${UserRole}"))
+
+        return UsernamePasswordAuthenticationToken(AuthPrincipal.of(claims), "", UserRoles)
     }
 
     fun resolveToken(req: HttpServletRequest): String? {

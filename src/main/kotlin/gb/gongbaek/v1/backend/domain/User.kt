@@ -30,7 +30,7 @@ data class User (
     }
 
     fun updateUserInfo(userInfoReq: UserInfoDto.UserInfoReq){
-        userInfo.type = userInfoReq.type
+        userInfo.userRole = userInfoReq.userRole
         userInfo.contact = userInfoReq.contact
         userInfo.nickname = userInfoReq.nickname
         userInfo.isNotificationAgreed = userInfoReq.isNotificationAgreed
@@ -54,7 +54,7 @@ data class UserInfo(
         var contact: String,
         
         @Enumerated(EnumType.STRING)
-        var type: UserType,
+        var userRole: UserRole,
         
         // 이용약관 동의
         var isServiceTermsAgreed: Boolean,
@@ -62,6 +62,6 @@ data class UserInfo(
         var isNotificationAgreed: Boolean
 )
 
-enum class UserType {
+enum class UserRole {
     UNSPECIFIED, STUDENT, PARENT, BUSINESS
 }

@@ -2,7 +2,7 @@ package gb.gongbaek.v1.backend.dto
 
 import gb.gongbaek.v1.backend.domain.User
 import gb.gongbaek.v1.backend.domain.UserInfo
-import gb.gongbaek.v1.backend.domain.UserType
+import gb.gongbaek.v1.backend.domain.UserRole
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -30,7 +30,7 @@ class SignUpDto {
                 userInfo = UserInfo(
                         nickname = nickname,
                         contact = contact,
-                        type = UserType.UNSPECIFIED,
+                        userRole = UserRole.UNSPECIFIED,
                         isServiceTermsAgreed = isServiceTermsAgreed,
                         isNotificationAgreed = isNotificationAgreed
                 ),

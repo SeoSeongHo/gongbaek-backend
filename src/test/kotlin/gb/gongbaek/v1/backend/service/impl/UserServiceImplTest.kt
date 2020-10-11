@@ -1,6 +1,6 @@
 //package gb.gongbaek.v1.backend.service.impl
 //
-//import gb.gongbaek.v1.backend.domain.UserType
+//import gb.gongbaek.v1.backend.domain.UserRole
 //import gb.gongbaek.v1.backend.dto.SignUpDto
 //import gb.gongbaek.v1.backend.repository.UserRepository
 //import gb.gongbaek.v1.backend.service.user.UserService
@@ -54,6 +54,6 @@
 //            firstName = "Seo",
 //            lastName = "SeongHo",
 //            avatar = "",
-//            type = UserType.STUDENT
+//            type = UserRole.STUDENT
 //    )
 //}

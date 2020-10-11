@@ -1,6 +1,7 @@
 package gb.gongbaek.v1.backend.controller
 
 import gb.gongbaek.v1.backend.config.jwt.JwtTokenProvider
+import gb.gongbaek.v1.backend.domain.UserRole
 import gb.gongbaek.v1.backend.dto.*
 import gb.gongbaek.v1.backend.dto.auth.AuthPrincipal
 import gb.gongbaek.v1.backend.exception.ExpiredRefreshTokenException
@@ -20,9 +21,9 @@ class OAuthController(
 ) {
 
     @PostMapping("/refresh")
-    fun refreshToken(@RequestBody oAuthReq: OAuthDto.OAuthReq): ResponseEntity<OAuthDto.OAuthRes> {
+    fun refreshToken(@AuthenticationPrincipal authPrincipal: AuthPrincipal, @RequestBody oAuthReq: OAuthDto.OAuthReq): ResponseEntity<OAuthDto.OAuthRes> {
 
-        val tokens = userService.refresh(oAuthReq)
+        val tokens = userService.refresh(oAuthReq, UserRole.valueOf(authPrincipal.userRole))
 
         return ResponseEntity
                 .ok()

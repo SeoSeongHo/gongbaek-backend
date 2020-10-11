@@ -24,7 +24,7 @@ class SecurityConfig(
                 .csrf().disable()
                 .antMatcher("/api/**").authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/api/v1/academy/**").hasAuthority("BUSINESS")
+                .antMatchers("/api/v1/academy/**").hasAnyRole("BUSINESS")
                 .antMatchers("/api/v1/users/register/**").anonymous()
                 .antMatchers("/api/v1/oauth/refresh").anonymous()
                 .anyRequest().authenticated()

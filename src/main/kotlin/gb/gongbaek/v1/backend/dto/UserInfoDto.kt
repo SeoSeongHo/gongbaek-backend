@@ -1,6 +1,6 @@
 package gb.gongbaek.v1.backend.dto
 
-import gb.gongbaek.v1.backend.domain.UserType
+import gb.gongbaek.v1.backend.domain.UserRole
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 
@@ -9,7 +9,7 @@ class UserInfoDto {
     data class UserInfoReq(
 
             @Enumerated(EnumType.STRING)
-            var type: UserType,
+            var userRole: UserRole,
 
             var nickname: String,
             var contact: String,
@@ -20,8 +20,8 @@ class UserInfoDto {
             var isNotificationAgreed: Boolean
     )
 
-    data class UserTypeReq(
+    data class UserRoleReq(
             @Enumerated(EnumType.STRING)
-            val type: UserType
+            val userRole: UserRole
     )
 }

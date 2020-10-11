@@ -4,7 +4,7 @@ import gb.gongbaek.v1.backend.config.jwt.JwtTokenProvider
 import gb.gongbaek.v1.backend.domain.BlackList
 import gb.gongbaek.v1.backend.domain.RefreshTokenJob
 import gb.gongbaek.v1.backend.domain.User
-import gb.gongbaek.v1.backend.domain.UserType
+import gb.gongbaek.v1.backend.domain.UserRole
 import gb.gongbaek.v1.backend.dto.*
 import gb.gongbaek.v1.backend.exception.*
 import gb.gongbaek.v1.backend.repository.BlackListRepository
@@ -46,8 +46,8 @@ class UserServiceImpl(
         val createdUser = userRepository.save(signUpReq.toEntity(bCryptPasswordEncoder))
 
         // 3. create access token and refresh token
-        val accessToken = jwtTokenProvider.createAccessToken(createdUser.id!!)
-        val refreshToken = jwtTokenProvider.createRefreshToken(createdUser.id!!)
+        val accessToken = jwtTokenProvider.createToken(createdUser.id!!, true)
+        val refreshToken = jwtTokenProvider.createToken(createdUser.id!!, false)
 
         // 4. save refresh token to refresh job db
         refreshTokenJobRepository.save(RefreshTokenJob(refreshToken = refreshToken, userId = createdUser.id!!, expiredTime = LocalDateTime.now().plusSeconds(refreshTokenExpiredTime)))
@@ -63,8 +63,8 @@ class UserServiceImpl(
         // check password
         if(!findUser.isRightPassword(bCryptPasswordEncoder, signInReq.password)) throw WrongPasswordException("wrong password exception.")
 
-        val accessToken = jwtTokenProvider.createAccessToken(findUser.id!!)
-        val refreshToken = jwtTokenProvider.createRefreshToken(findUser.id!!)
+        val accessToken = jwtTokenProvider.createToken(findUser.id!!, true)
+        val refreshToken = jwtTokenProvider.createToken(findUser.id!!, false)
 
         refreshTokenJobRepository.save(RefreshTokenJob(refreshToken = refreshToken, userId = findUser.id!!, expiredTime = LocalDateTime.now().plusSeconds(refreshTokenExpiredTime)))
 
@@ -83,13 +83,13 @@ class UserServiceImpl(
     }
 
 
-    override fun refresh(oAuthReq: OAuthDto.OAuthReq): OAuthDto.OAuthRes{
+    override fun refresh(oAuthReq: OAuthDto.OAuthReq, userRole: UserRole): OAuthDto.OAuthRes{
 
         val refreshTokenJob = refreshTokenJobRepository.findByRefreshToken(oAuthReq.refreshToken) ?: throw RefreshTokenNotFoundException("can not find refresh token by userId.")
         if(refreshTokenJob.expiredTime < LocalDateTime.now())
             throw ExpiredRefreshTokenException("refresh token is expired. please reissue token.")
 
-        return OAuthDto.OAuthRes(accessToken = jwtTokenProvider.createAccessToken(refreshTokenJob.userId), refreshToken = refreshTokenJob.refreshToken)
+        return OAuthDto.OAuthRes(accessToken = jwtTokenProvider.createToken(refreshTokenJob.userId, true, userRole), refreshToken = refreshTokenJob.refreshToken)
     }
 
 
@@ -108,14 +108,14 @@ class UserServiceImpl(
         return user.toDto()
     }
 
-    override fun updateUserType(userTypeReq: UserInfoDto.UserTypeReq, userId: Long): SignInDto.SignInRes {
+    override fun updateUserRole(UserRoleReq: UserInfoDto.UserRoleReq, userId: Long): SignInDto.SignInRes {
 
         val user = getUserById(userId)
 
-        user.userInfo.type = userTypeReq.type
+        user.userInfo.userRole = UserRoleReq.userRole
 
-        val accessToken = jwtTokenProvider.createAccessToken(user.id!!, userTypeReq.type)
-        val refreshToken = jwtTokenProvider.createRefreshToken(user.id!!, userTypeReq.type)
+        val accessToken = jwtTokenProvider.createToken(user.id!!, true, UserRoleReq.userRole)
+        val refreshToken = jwtTokenProvider.createToken(user.id!!, false, UserRoleReq.userRole)
 
         return SignInDto.SignInRes(
                 accessToken = accessToken,
