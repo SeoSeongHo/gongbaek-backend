@@ -53,7 +53,7 @@ enum class RecommendTitle{
     CLOSED_COACH,
     SINGLE_SUBJECT,
 
-    // STUDY ROOM --------
+    // READING ROOM --------
     DISCUSS,
     CHEAP,
     HIGH_QUALITY,

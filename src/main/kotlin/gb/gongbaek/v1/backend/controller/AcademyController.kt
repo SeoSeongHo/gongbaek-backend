@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/academy")
+@RequestMapping("/api/v1/academies")
 class AcademyController(
         @Autowired private val academyService: AcademyService
 ) {

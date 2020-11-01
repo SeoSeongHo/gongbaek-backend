@@ -78,7 +78,7 @@ class UserController(
                 .body(updatedUser)
     }
 
-    @GetMapping
+    @GetMapping("/info")
     fun getUser(@AuthenticationPrincipal authPrincipal: AuthPrincipal): ResponseEntity<UserDto.UserRes>{
 
         val user = userService.getUserById(authPrincipal.userId)
