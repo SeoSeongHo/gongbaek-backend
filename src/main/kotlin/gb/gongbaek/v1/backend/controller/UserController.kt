@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
@@ -73,11 +70,21 @@ class UserController(
                 .body(updatedUser)
     }
 
-    @PostMapping("/update/type")
+    @PostMapping("/update/role")
     fun updateUserRole(@AuthenticationPrincipal authPrincipal: AuthPrincipal, @RequestBody UserRoleReq: UserInfoDto.UserRoleReq): ResponseEntity<SignInDto.SignInRes>{
         val updatedUser = userService.updateUserRole(UserRoleReq, authPrincipal.userId)
         return ResponseEntity
                 .ok()
                 .body(updatedUser)
+    }
+
+    @GetMapping
+    fun getUser(@AuthenticationPrincipal authPrincipal: AuthPrincipal): ResponseEntity<UserDto.UserRes>{
+
+        val user = userService.getUserById(authPrincipal.userId)
+
+        return ResponseEntity
+                .ok()
+                .body(user.toDto())
     }
 }

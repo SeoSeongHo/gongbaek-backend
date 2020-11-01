@@ -40,15 +40,15 @@ class SignUpDto {
 
     data class SignUpRes(
 
-            val access_token: String,
-            val refresh_token: String,
+            val accessToken: String,
+            val refreshToken: String,
             val user: UserDto.UserRes
     ){
         companion object{
             fun toDto(accessToken: String, refreshToken: String, user: User): SignUpRes {
                 return SignUpRes(
-                        access_token = accessToken,
-                        refresh_token = refreshToken,
+                        accessToken = accessToken,
+                        refreshToken = refreshToken,
                         user = user.toDto()
                 )
             }
