@@ -1,22 +1,22 @@
-spring:
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/gongbaek;
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-    database: h2
-    generate-ddl: true
-
-logging.level:
-  org.hibernate.SQL: debug
-  org.hibernate.type: trace
-  org.hibernate.type.BasicTypeRegistry: warn
-
-jwt:
-  secretKey: fjdalkklamclkmalwefwajiejviajfilkamdlkdmclkmkadmkmfjwaeilkcmdlksmaclksmlk
-  expiredTime: 1000
+#spring:
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/gongbaek;
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
+#    database: h2
+#    generate-ddl: true
+#
+#logging.level:
+#  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
+#  org.hibernate.type.BasicTypeRegistry: warn
+#
+#jwt:
+#  secretKey: fjdalkklamclkmalwefwajiejviajfilkamdlkdmclkmkadmkmfjwaeilkcmdlksmaclksmlk
+#  expiredTime: 1000
