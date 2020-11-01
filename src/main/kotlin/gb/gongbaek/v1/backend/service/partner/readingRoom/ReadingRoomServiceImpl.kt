@@ -11,5 +11,5 @@ class ReadingRoomServiceImpl(
         @Autowired private val partnerService: PartnerService
 ): ReadingRoomService {
 
-    
+
 }

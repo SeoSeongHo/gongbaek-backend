@@ -1,15 +1,19 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/gongbaek;
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://gongbaek-test-db.clonrz83cm8c.ap-northeast-2.rds.amazonaws.com:3306/gongbaek?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: asdzxc1450
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:h2:tcp://localhost/~/gongbaek;
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
-    database: h2
+    database: mysql
     generate-ddl: true
 
 logging.level:

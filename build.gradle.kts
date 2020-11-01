@@ -30,6 +30,8 @@ dependencies {
 	implementation("javax.validation:validation-api:2.0.1.Final")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")    
 	runtimeOnly("com.h2database:h2")
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
+	implementation("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
