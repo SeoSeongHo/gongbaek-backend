@@ -6,6 +6,7 @@ import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.no
 import gb.gongbaek.v1.backend.exception.handler.ErrorResponseEntity.Companion.serverError
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.core.AuthenticationException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -20,6 +21,10 @@ class ExceptionHandler {
 
     @ExceptionHandler(DuplicateEmailException::class)
     fun handleDuplicateEmailException(exception: DuplicateEmailException) =
+            badRequest(exception.message!!)
+
+    @ExceptionHandler(DuplicateNicknameException::class)
+    fun handleDuplicateNicknameException(exception: DuplicateNicknameException) =
             badRequest(exception.message!!)
 
     @ExceptionHandler(EmailNotFoundException::class)
@@ -37,4 +42,8 @@ class ExceptionHandler {
     @ExceptionHandler(RefreshTokenNotFoundException::class)
     fun handleRefreshTokenNotFoundException(exception: RefreshTokenNotFoundException) =
             badRequest(exception.message!!)
+
+    @ExceptionHandler(DataIntegrityViolationException::class)
+    fun handleDataIntegrityViolationException(exception: DataIntegrityViolationException) =
+            badRequest("duplicate filed. ${exception.message!!}")
 }

@@ -38,9 +38,12 @@ class UserServiceImpl(
 
     override fun signUp(signUpReq: SignUpDto.SignUpReq): SignUpDto.SignUpRes {
 
-        // 1. check email duplication
+        // 1. check email, nickname duplication
         if(userRepository.existsByEmail(signUpReq.email))
             throw DuplicateEmailException("duplicate email: ${signUpReq.email}")
+
+        if(userRepository.existsByUserInfoNickname(signUpReq.nickname))
+            throw DuplicateNicknameException("duplicate nickname: ${signUpReq.nickname}")
 
         // 2. save user
         val createdUser = userRepository.save(signUpReq.toEntity(bCryptPasswordEncoder))
