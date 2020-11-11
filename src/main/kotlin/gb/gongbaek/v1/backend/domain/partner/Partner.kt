@@ -2,6 +2,7 @@ package gb.gongbaek.v1.backend.domain.partner
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import gb.gongbaek.v1.backend.domain.EntityAuditing
+import gb.gongbaek.v1.backend.domain.HashTag
 import gb.gongbaek.v1.backend.domain.Like
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
@@ -23,6 +24,9 @@ abstract class Partner(
         @JsonIgnore
         @OneToMany(mappedBy = "partner")
         open var likes: MutableList<Like> = mutableListOf()
+        //@JsonIgnore
+        //@OneToMany(mappedBy = "partner")
+        //open var hashTags: MutableList<HashTag> = mutableListOf()
 
 ): EntityAuditing() {
 

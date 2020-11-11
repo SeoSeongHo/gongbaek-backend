@@ -29,11 +29,11 @@ class UserServiceImpl(
 ): UserService {
 
     override fun getUserById(id: Long): User =
-            userRepository.findById(id).orElseThrow { throw UserNotFoundException("") }
+            userRepository.findById(id).orElseThrow { throw UserNotFoundException("can not find user by id: $id.") }
 
 
     override fun getUserByEmail(email: String): User =
-            userRepository.findByEmail(email) ?: throw UserNotFoundException("")
+            userRepository.findByEmail(email) ?: throw UserNotFoundException("can not find user by email: $email.")
 
 
     override fun signUp(signUpReq: SignUpDto.SignUpReq): SignUpDto.SignUpRes {

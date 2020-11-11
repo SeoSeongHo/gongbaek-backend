@@ -1,5 +1,6 @@
 package gb.gongbaek.v1.backend.dto.partner
 
+import gb.gongbaek.v1.backend.domain.HashTag
 import gb.gongbaek.v1.backend.domain.Like
 import gb.gongbaek.v1.backend.domain.partner.Academy
 import gb.gongbaek.v1.backend.domain.partner.Address
@@ -11,11 +12,16 @@ class AcademyDto {
 
             val name: String,
             val address: Address,
+
             val branchName: String?,
             val contact: String,
-            val imageUrl: String,
-            // TODO How to get this...
-            val businessRegistration: String
+            val representativeContact: String,
+
+            val businessRegistration: String,
+            val operationalCertification: String,
+            val webSiteUrl: String?
+
+            //val hashTags: MutableList<HashTag>
     ){
         fun toEntity() = Academy(
                 name = name,
@@ -24,8 +30,12 @@ class AcademyDto {
                 likes = mutableListOf(),
                 branchName = branchName,
                 contact = contact,
-                imageUrl = imageUrl,
-                businessRegistration = businessRegistration
+                //imageUrl = imageUrl,
+                businessRegistration = businessRegistration,
+                //hashTags = hashTags,
+                representativeContact = representativeContact,
+                operationalCertification = operationalCertification,
+                webSiteUrl = webSiteUrl
         )
     }
 

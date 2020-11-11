@@ -27,8 +27,8 @@ class ExceptionHandler {
     fun handleDuplicateNicknameException(exception: DuplicateNicknameException) =
             badRequest(exception.message!!)
 
-    @ExceptionHandler(EmailNotFoundException::class)
-    fun handleEmailNotFoundException(exception: EmailNotFoundException) =
+    @ExceptionHandler(UserNotFoundException::class)
+    fun handleUserNotFoundException(exception: UserNotFoundException) =
             notFound(exception.message!!)
 
     @ExceptionHandler(WrongPasswordException::class)
@@ -45,5 +45,5 @@ class ExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException::class)
     fun handleDataIntegrityViolationException(exception: DataIntegrityViolationException) =
-            badRequest("duplicate filed. ${exception.message!!}")
+            badRequest("database exception: duplicate field. message: ${exception.message!!}")
 }

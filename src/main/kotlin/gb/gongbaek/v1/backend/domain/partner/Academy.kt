@@ -1,5 +1,6 @@
 package gb.gongbaek.v1.backend.domain.partner
 
+import gb.gongbaek.v1.backend.domain.HashTag
 import gb.gongbaek.v1.backend.domain.Like
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
@@ -18,17 +19,21 @@ data class Academy (
         override val address: Address,
         override var isConfirmed: Boolean,
         override var likes: MutableList<Like>,
+        //override var hashTags: MutableList<HashTag>,
 
         var branchName: String? = null,
         var contact: String,
+        var representativeContact: String,
+
         var businessRegistration: String,
-        var imageUrl: String
+        var operationalCertification: String,
+        var webSiteUrl: String?
 ): Partner(id, PartnerType.ACADEMY, name, address, isConfirmed, likes) {
 
     override fun toHomeCard(isLiked: Boolean) = HomeCardDto.Card(
             partnerType = PartnerType.ACADEMY,
             partnerId = id!!,
-            imageUrl = imageUrl,
+            imageUrl = operationalCertification,
             name = name + branchName,
             location = address.roadAddress,
             isLiked = isLiked,

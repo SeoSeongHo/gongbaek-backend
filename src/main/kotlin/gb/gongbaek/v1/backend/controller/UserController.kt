@@ -84,7 +84,7 @@ class UserController(
         val user = userService.getUserById(authPrincipal.userId)
 
         return ResponseEntity
-                .ok()
+                .ok()   
                 .body(user.toDto())
     }
 }

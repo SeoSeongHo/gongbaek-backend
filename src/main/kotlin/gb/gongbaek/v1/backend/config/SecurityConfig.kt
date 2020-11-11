@@ -26,6 +26,7 @@ class SecurityConfig(
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/v1/academy/**").hasAnyRole("BUSINESS")
                 .antMatchers("/api/v1/users/register/**").anonymous()
+                .antMatchers("/api/v1/users/login").anonymous()
                 .antMatchers("/api/v1/oauth/refresh").anonymous()
                 .anyRequest().authenticated()
                 .and()
