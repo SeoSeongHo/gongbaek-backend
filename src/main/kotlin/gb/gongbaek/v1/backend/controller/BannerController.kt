@@ -4,9 +4,7 @@ import gb.gongbaek.v1.backend.dto.BannerDto
 import gb.gongbaek.v1.backend.service.banner.BannerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/banners")
@@ -20,5 +18,13 @@ class BannerController(
         return ResponseEntity
                 .ok()
                 .body(bannerService.getBanners())
+    }
+
+    @PostMapping
+    fun createBanner(@RequestBody bannerReq: BannerDto.BannerReq): ResponseEntity<BannerDto.BannerRes>{
+
+        return ResponseEntity
+                .ok()
+                .body(bannerService.createBanner(bannerReq))
     }
 }
