@@ -11,13 +11,18 @@ import javax.persistence.Id
 data class Banner (
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
-        val name: String,
-        val imageUrl: String
+        val title: String,
+        val description: String,
+        val imageUrl: String,
+        val backgroundColor: String
 ): EntityAuditing() {
 
     fun toDto(): BannerDto.BannerRes{
         return BannerDto.BannerRes(
-                imageUrl = imageUrl
+                title = title,
+                description = description,
+                imageUrl = imageUrl,
+                backgroundColor = backgroundColor
         )
     }
 }
