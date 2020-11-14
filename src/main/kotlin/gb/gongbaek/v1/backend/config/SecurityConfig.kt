@@ -28,6 +28,7 @@ class SecurityConfig(
                 .antMatchers("/api/v1/users/register/**").anonymous()
                 .antMatchers("/api/v1/users/login").anonymous()
                 .antMatchers("/api/v1/oauth/refresh").anonymous()
+                .antMatchers("/api/v1/banners/**").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .apply(JwtConfig(jwtTokenProvider, restAuthenticationEntryPoint))
