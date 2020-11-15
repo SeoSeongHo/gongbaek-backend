@@ -11,13 +11,9 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.*
 import java.util.*
 
-@Component
 class S3Uploader(
-        @Autowired
         private val amazonS3Client: AmazonS3,
-        @Value("\${aws.s3.academy.img.bucket}")
         private val bucketName: String,
-        @Value("\${aws.s3.academy.img.dir}")
         private val dirName: String
 ) {
 

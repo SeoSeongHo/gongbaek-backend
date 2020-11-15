@@ -1,16 +1,25 @@
 package gb.gongbaek.v1.backend.service.banner
 
+import com.amazonaws.services.s3.AmazonS3
 import gb.gongbaek.v1.backend.domain.Banner
 import gb.gongbaek.v1.backend.dto.BannerDto
+import gb.gongbaek.v1.backend.exception.ImageUploadException
 import gb.gongbaek.v1.backend.repository.BannerRepository
+import gb.gongbaek.v1.backend.util.S3Uploader
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
 @Service
 @Transactional
 class BannerServiceImpl(
-        @Autowired private val bannerRepository: BannerRepository
+        @Autowired private val bannerRepository: BannerRepository,
+        @Autowired private val amazonS3Client: AmazonS3,
+        @Value("\${aws.s3.img.banner.bucket}")
+        private val bucketName: String,
+        @Value("\${aws.s3.img.banner.dir}")
+        private val dirName: String
 ): BannerService{
 
     fun getBanner(id: Long): Banner{
@@ -23,8 +32,22 @@ class BannerServiceImpl(
         return banners.map{ banner -> banner.toDto() }
     }
 
-    override fun createBanner(bannerReq: BannerDto.BannerReq): BannerDto.BannerRes{
+    /*override fun createBanner(bannerReq: BannerDto.BannerReq): BannerDto.BannerRes{
         val createdBanner = bannerRepository.save(bannerReq.toEntity())
         return createdBanner.toDto()
+    }*/
+
+    override fun createBanner(bannerReq: BannerDto.BannerReq): BannerDto.BannerRes{
+
+        val s3Uploader: S3Uploader = S3Uploader(amazonS3Client, bucketName, dirName)
+        try{
+            val imageUrl: String? = s3Uploader.upload(bannerReq.image!!) ?: throw ImageUploadException("failed to upload image to s3. title: ${bannerReq.title} desc: ${bannerReq.description}")
+            val createdBanner = bannerRepository.save(bannerReq.toEntity(imageUrl!!))
+            return createdBanner.toDto()
+        }
+        catch(e: Exception){
+            throw ImageUploadException("failed to upload image to s3. title: ${bannerReq.title} desc: ${bannerReq.description}")
+        }
+
     }
 }

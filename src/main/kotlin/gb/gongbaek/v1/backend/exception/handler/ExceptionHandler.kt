@@ -46,4 +46,8 @@ class ExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException::class)
     fun handleDataIntegrityViolationException(exception: DataIntegrityViolationException) =
             badRequest("database exception: duplicate field. message: ${exception.message!!}")
+
+    @ExceptionHandler(ImageUploadException::class)
+    fun handleImageUploadException(exception: ImageUploadException) =
+            serverError(exception.message!!)
 }

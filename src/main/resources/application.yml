@@ -1,4 +1,11 @@
 spring:
+  servlet:
+    multipart:
+      file-size-threshold: 1KB
+      location: C:\Users\swa04\Desktop\java_springboot\gongbaek.v1.backend\images
+      max-file-size: 100MB
+      max-request-size: 100MB
+
   datasource:
     url: jdbc:mysql://gongbaek-backend-db-dev.cytmb3qvbtlr.ap-northeast-2.rds.amazonaws.com:3306/gongbaek?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: gongbaek
@@ -31,11 +38,7 @@ jwt:
 
 aws:
   s3:
-    academy:
-      img:
-        bucket: gongbaek.v1.backend
-        dir: academy/img
-
-      list:
-        bucket: gongbaek.v1.backend
-        dir: academy/list
+    img:
+      banner:
+        bucket: gongbaek.static.io
+        dir: banners

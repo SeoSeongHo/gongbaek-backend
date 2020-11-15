@@ -19,6 +19,7 @@ data class Banner (
 
     fun toDto(): BannerDto.BannerRes{
         return BannerDto.BannerRes(
+                id = id!!,
                 title = title,
                 description = description,
                 imageUrl = imageUrl,
