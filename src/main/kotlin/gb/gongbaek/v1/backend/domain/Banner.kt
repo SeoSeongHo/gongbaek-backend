@@ -10,6 +10,7 @@ import javax.persistence.Id
 data class Banner (
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
+        val platform: Platform,
         val tab: BannerTab,
         val imageUrl: String,
         val backgroundColor: String
@@ -33,4 +34,10 @@ enum class BannerTab {
     TODAY,
     ACADEMY,
     STUDY_ROOM
+}
+
+enum class Platform {
+    MOBILE,
+    WEB,
+    UNKNOWN
 }

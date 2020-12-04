@@ -1,4 +1,4 @@
-package gb.gongbaek.v1.backend.controller
+package gb.gongbaek.v1.backend.controller.web
 
 import gb.gongbaek.v1.backend.domain.BannerTab
 import gb.gongbaek.v1.backend.domain.Platform
@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/banners")
-class BannerController(
+@RequestMapping("/web/api/v1/banners")
+class WebBannerController(
         @Autowired private val bannerService: BannerService
 ) {
 
@@ -26,9 +26,9 @@ class BannerController(
 
 
     @PostMapping(consumes = [ MediaType.MULTIPART_FORM_DATA_VALUE ])
-    fun createBanner(bannerReq: BannerDto.BannerReq): ResponseEntity<BannerDto.BannerRes>{
+    fun createBanner(bannerReq: BannerDto.BannerReq): ResponseEntity<BannerDto.BannerRes> {
 
-        val createdBanner = bannerService.createBanner(Platform.MOBILE, bannerReq)
+        val createdBanner = bannerService.createBanner(Platform.WEB, bannerReq)
 
         return ResponseEntity
                 .ok()

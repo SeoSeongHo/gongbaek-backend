@@ -3,6 +3,7 @@ package gb.gongbaek.v1.backend.service.banner
 import com.amazonaws.services.s3.AmazonS3
 import gb.gongbaek.v1.backend.domain.Banner
 import gb.gongbaek.v1.backend.domain.BannerTab
+import gb.gongbaek.v1.backend.domain.Platform
 import gb.gongbaek.v1.backend.dto.BannerDto
 import gb.gongbaek.v1.backend.exception.ImageUploadException
 import gb.gongbaek.v1.backend.repository.BannerRepository
@@ -38,17 +39,12 @@ class BannerServiceImpl(
         return banners.map { banner -> banner.toDto() }
     }
 
-    /*override fun createBanner(bannerReq: BannerDto.BannerReq): BannerDto.BannerRes{
-        val createdBanner = bannerRepository.save(bannerReq.toEntity())
-        return createdBanner.toDto()
-    }*/
+    override fun createBanner(platform: Platform, bannerReq: BannerDto.BannerReq): BannerDto.BannerRes{
 
-    override fun createBanner(bannerReq: BannerDto.BannerReq): BannerDto.BannerRes{
-
-        val s3Uploader: S3Uploader = S3Uploader(amazonS3Client, bucketName, dirName)
+        val s3Uploader = S3Uploader(amazonS3Client, bucketName, dirName)
         try{
             val imageUrl: String? = s3Uploader.upload(bannerReq.image!!) ?: throw ImageUploadException("failed to upload image to s3.")
-            val createdBanner = bannerRepository.save(bannerReq.toEntity(imageUrl!!))
+            val createdBanner = bannerRepository.save(bannerReq.toEntity(imageUrl!!, platform))
             return createdBanner.toDto()
         }
         catch(e: Exception){

@@ -2,9 +2,8 @@ package gb.gongbaek.v1.backend.dto
 
 import gb.gongbaek.v1.backend.domain.Banner
 import gb.gongbaek.v1.backend.domain.BannerTab
+import gb.gongbaek.v1.backend.domain.Platform
 import org.springframework.web.multipart.MultipartFile
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
 
 class BannerDto {
 
@@ -14,8 +13,9 @@ class BannerDto {
             var backgroundColor: String
     ){
 
-        fun toEntity(imageUrl: String) = Banner(
+        fun toEntity(imageUrl: String, platform: Platform) = Banner(
                 imageUrl = imageUrl,
+                platform = platform,
                 tab = tab,
                 backgroundColor = backgroundColor
         )
