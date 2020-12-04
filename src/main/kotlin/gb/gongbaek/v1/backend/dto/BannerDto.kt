@@ -1,21 +1,22 @@
 package gb.gongbaek.v1.backend.dto
 
 import gb.gongbaek.v1.backend.domain.Banner
+import gb.gongbaek.v1.backend.domain.BannerTab
 import org.springframework.web.multipart.MultipartFile
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 
 class BannerDto {
 
     data class BannerReq(
-            var title: String,
-            var description: String,
             var image: MultipartFile?,
+            var tab: BannerTab,
             var backgroundColor: String
     ){
 
         fun toEntity(imageUrl: String) = Banner(
-                title = title,
-                description = description,
                 imageUrl = imageUrl,
+                tab = tab,
                 backgroundColor = backgroundColor
         )
     }
@@ -23,8 +24,6 @@ class BannerDto {
 
     data class BannerRes(
             val id: Long,
-            val title: String,
-            val description: String,
             val imageUrl: String,
             val backgroundColor: String
     )

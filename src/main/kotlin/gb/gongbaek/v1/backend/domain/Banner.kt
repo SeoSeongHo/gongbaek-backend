@@ -6,13 +6,11 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 
-// TODO RDS 외에 다른 DB 에 저장
 @Entity
 data class Banner (
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
-        val title: String,
-        val description: String,
+        val tab: BannerTab,
         val imageUrl: String,
         val backgroundColor: String
 ): EntityAuditing() {
@@ -20,10 +18,19 @@ data class Banner (
     fun toDto(): BannerDto.BannerRes{
         return BannerDto.BannerRes(
                 id = id!!,
-                title = title,
-                description = description,
-                imageUrl = imageUrl,
+                imageUrl = toHttp(imageUrl),
                 backgroundColor = backgroundColor
         )
     }
+    
+    // TODO s3 endpoint 에 ssl 처리하면 사라질 메서드
+    fun toHttp(preStr: String): String{
+        return preStr.replace("https", "http")
+    }
+}
+
+enum class BannerTab {
+    TODAY,
+    ACADEMY,
+    STUDY_ROOM
 }

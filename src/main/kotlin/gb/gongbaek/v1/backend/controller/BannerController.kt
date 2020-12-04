@@ -1,5 +1,6 @@
 package gb.gongbaek.v1.backend.controller
 
+import gb.gongbaek.v1.backend.domain.BannerTab
 import gb.gongbaek.v1.backend.dto.BannerDto
 import gb.gongbaek.v1.backend.service.banner.BannerService
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,11 +15,14 @@ class BannerController(
 ) {
 
     @GetMapping
-    fun getBanners(): ResponseEntity<List<BannerDto.BannerRes>> {
+    fun getBanners(@RequestParam tab: BannerTab): ResponseEntity<List<BannerDto.BannerRes>> {
+
+        val banners = bannerService.getBannersByTab(tab)
 
         return ResponseEntity
                 .ok()
-                .body(bannerService.getBanners())
+                .body(bannerService.getBannersByTab(tab))
+
     }
 
 //    @PostMapping
