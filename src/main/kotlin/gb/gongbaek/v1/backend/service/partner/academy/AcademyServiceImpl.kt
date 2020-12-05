@@ -32,8 +32,9 @@ class AcademyServiceImpl(
         return getAcademy(academyId).toDetailDto()
     }
 
-    override fun createAcademy(createAcademyReq: AcademyDto.CreateAcademyReq) =
-            partnerService.createPartner(createAcademyReq.toEntity())
+    override fun createAcademy(createAcademyReq: AcademyDto.CreateAcademyReq): Partner {
+        return partnerService.createPartner(createAcademyReq.toEntity())
+    }
 
     override fun confirmAcademy(academyId: Long){
         partnerService.confirmPartner(academyId)

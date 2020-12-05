@@ -24,7 +24,7 @@ class ReadingRoomServiceImpl(
         return readingRoomRepository.findById(id).orElseThrow { PartnerNotFoundException("can not find reading room. id: $id") }
     }
 
-    fun getReadingRooms(): List<Partner>{
+    override fun getReadingRooms(): List<Partner>{
         return partnerService.getPartnersByType(PartnerType.READING_ROOM)
     }
 
@@ -32,11 +32,11 @@ class ReadingRoomServiceImpl(
         return getReadingRoom(id).toDetailDto()
     }
 
-    fun createReadingRoom(createReadingRoomReq: ReadingRoomDto.CreateReadingRoomReq){
-        partnerService.createPartner(createReadingRoomReq.toEntity())
+    override fun createReadingRoom(createReadingRoomReq: ReadingRoomDto.CreateReadingRoomReq): Partner{
+        return partnerService.createPartner(createReadingRoomReq.toEntity())
     }
 
-    fun confirmReadingRoom(id: Long){
+    override fun confirmReadingRoom(id: Long){
         partnerService.confirmPartner(id)
     }
 }

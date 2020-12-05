@@ -14,10 +14,14 @@ class ReadingRoomController(
         @Autowired private val readingRoomService: ReadingRoomService
 ) {
 
-
     @GetMapping
-    fun getReadingRooms(){
+    fun getReadingRooms(): ResponseEntity<List<PartnerDto>> {
 
+        val readingRooms = readingRoomService.getReadingRooms()
+
+        return ResponseEntity
+                .ok()
+                .body(readingRooms.map { readingRoom -> readingRoom.toDto() })
     }
 
     @GetMapping("/{id}")
@@ -41,12 +45,17 @@ class ReadingRoomController(
     }
 
     @PostMapping
-    fun createReadingRoom(){
+    fun createReadingRoom(@RequestBody readingRoomReq: ReadingRoomDto.CreateReadingRoomReq): ResponseEntity<PartnerDto>{
 
+        val readingRoom = readingRoomService.createReadingRoom(readingRoomReq)
+
+        return ResponseEntity
+                .ok()
+                .body(readingRoom.toDto())
     }
 
     @PostMapping("/confirm/{id}")
     fun confirmReadingRoom(@PathVariable id: Long){
-
+        readingRoomService.confirmReadingRoom(id)
     }
 }

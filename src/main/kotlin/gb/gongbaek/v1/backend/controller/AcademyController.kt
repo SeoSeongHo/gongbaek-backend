@@ -34,15 +34,6 @@ class AcademyController(
                 .body(academy.toDto())
     }
 
-    @PostMapping
-    fun createAcademy(@RequestBody academyReq: AcademyDto.CreateAcademyReq): ResponseEntity<PartnerDto>{
-        val academy = academyService.createAcademy(academyReq)
-
-        return ResponseEntity
-                .ok()
-                .body(academy.toDto())
-    }
-
     @GetMapping("/{id}/detail")
     fun getAcademyDetail(@PathVariable id: Long): ResponseEntity<AcademyDetailDto.AcademyDetailRes>{
 
@@ -53,6 +44,14 @@ class AcademyController(
                 .body(academyDetail)
     }
 
+    @PostMapping
+    fun createAcademy(@RequestBody academyReq: AcademyDto.CreateAcademyReq): ResponseEntity<PartnerDto>{
+        val academy = academyService.createAcademy(academyReq)
+
+        return ResponseEntity
+                .ok()
+                .body(academy.toDto())
+    }
 
     @PostMapping("/confirm/{id}")
     fun confirmAcademy(@PathVariable id: Long){
