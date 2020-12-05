@@ -24,7 +24,7 @@ class HomeServiceImpl(
         return recommendations.map { recommendation -> HomeCardDto.HomeCardRes(
                 title = recommendation.title,
                 description = recommendation.description,
-                cards = recommendModule.triggerModule(recommendation.title)
+                cards = recommendModule.getPartners(recommendation.title)
                         .map { partner -> partner.toHomeCard(
                                 if(userId != null) likeService.existsLikeByUserIdAndPartnerId(userId, partner.id!!)
                                 else false ) }

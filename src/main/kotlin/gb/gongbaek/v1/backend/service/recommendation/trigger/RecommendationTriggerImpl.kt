@@ -18,8 +18,7 @@ class RecommendationTriggerImpl(
 
         return when(category){
             RecommendCategory.ACADEMY -> AcademyRecommendModule(partnerService, recommendationService)
-            RecommendCategory.STUDY_ROOM -> StudyRoomRecommendModule(partnerService, recommendationService)
-            RecommendCategory.STORE -> StoreRecommendModule(partnerService, recommendationService)
+            RecommendCategory.READING_ROOM -> ReadingRoomRecommendModule(partnerService, recommendationService)
             RecommendCategory.TODAY -> TodayRecommendModule(partnerService, recommendationService)
         }
     }

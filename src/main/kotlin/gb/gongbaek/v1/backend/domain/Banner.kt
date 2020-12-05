@@ -33,7 +33,8 @@ data class Banner (
 enum class BannerTab {
     TODAY,
     ACADEMY,
-    STUDY_ROOM
+    STUDY_ROOM,
+    CLASS
 }
 
 enum class Platform {

@@ -35,8 +35,7 @@ enum class PartnerType {
 enum class RecommendCategory{
     TODAY,
     ACADEMY,
-    STUDY_ROOM,
-    STORE
+    READING_ROOM,
 }
 
 enum class RecommendTitle{

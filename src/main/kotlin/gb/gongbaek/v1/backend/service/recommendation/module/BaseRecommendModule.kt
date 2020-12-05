@@ -7,5 +7,5 @@ import gb.gongbaek.v1.backend.dto.RecommendTitle
 abstract class BaseRecommendModule {
 
     abstract fun getRecommendations(): List<Recommendation>
-    abstract fun triggerModule(recommendTitle: RecommendTitle): List<Partner>
+    abstract fun getPartners(recommendTitle: RecommendTitle): List<Partner>
 }

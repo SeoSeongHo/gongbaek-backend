@@ -5,6 +5,7 @@ import gb.gongbaek.v1.backend.domain.partner.Partner
 import gb.gongbaek.v1.backend.dto.PartnerType
 import gb.gongbaek.v1.backend.dto.RecommendCategory
 import gb.gongbaek.v1.backend.dto.RecommendTitle
+import gb.gongbaek.v1.backend.exception.WrongRecommendTitleException
 import gb.gongbaek.v1.backend.service.partner.PartnerService
 import gb.gongbaek.v1.backend.service.recommendation.RecommendationService
 
@@ -16,7 +17,7 @@ class AcademyRecommendModule(
     override fun getRecommendations(): List<Recommendation> =
             recommendationService.getRecommendationByCategory(RecommendCategory.ACADEMY)
 
-    override fun triggerModule(recommendTitle: RecommendTitle): List<Partner>{
+    override fun getPartners(recommendTitle: RecommendTitle): List<Partner>{
 
         return when(recommendTitle){
             RecommendTitle.MY_FAVORITE -> recommendMyFavorite()
@@ -24,7 +25,7 @@ class AcademyRecommendModule(
             RecommendTitle.FEW_ELITE -> recommendFewElite()
             RecommendTitle.CLOSED_COACH -> recommendClosedCoach()
             RecommendTitle.SINGLE_SUBJECT -> recommendSingleSubject()
-            else -> throw Exception()
+            else -> throw WrongRecommendTitleException("wrong recommend title on academy tab. $recommendTitle")
         }
     }
 

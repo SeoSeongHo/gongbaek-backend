@@ -50,4 +50,8 @@ class ExceptionHandler {
     @ExceptionHandler(ImageUploadException::class)
     fun handleImageUploadException(exception: ImageUploadException) =
             serverError(exception.message!!)
+
+    @ExceptionHandler(WrongRecommendTitleException::class)
+    fun handleWrongRecommendTitleException(exception: WrongRecommendTitleException) =
+            badRequest(exception.message!!)
 }
