@@ -1,10 +1,10 @@
 package gb.gongbaek.v1.backend.domain.partner
 
-import gb.gongbaek.v1.backend.domain.HashTag
 import gb.gongbaek.v1.backend.domain.Like
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
-import gb.gongbaek.v1.backend.dto.partner.AcademyDto
+import gb.gongbaek.v1.backend.dto.partner.academy.AcademyDetailDto
+import gb.gongbaek.v1.backend.dto.partner.academy.AcademyDto
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Embeddable
 import javax.persistence.Embedded
@@ -12,47 +12,85 @@ import javax.persistence.Entity
 
 @Entity
 @DiscriminatorValue("A")
-// 학원, 공부방, 그룹과외
+// 학원, 교습소
 data class Academy (
         override val id: Long? = null,
-        override val name: String,
-        override val address: Address,
+        override val name: String, // 시설명
         override var isConfirmed: Boolean,
         override var likes: MutableList<Like>,
+
+        override var branchName: String? = null, // 지점명
+        override var adminContact: String, // 연락처, 괸리자 컨택용
+        override var representativeContact: String, // 대표 번호, 유저 공개용
+
+        override var businessRegistration: String? = null, // 사업자 등록증
+
+        override var operationalCertification: List<String>?, // 운영 인증, 유저 공개용
+        override var representativeImage: String, // 홈카드 대표 사진, 유저 공개용
         //override var hashTags: MutableList<HashTag>,
 
-        var branchName: String? = null,
-        var contact: String,
-        var representativeContact: String,
+        var academyType: AcademyType, // 학원인지 공부방인지
 
-        var businessRegistration: String,
-        var operationalCertification: String,
-        var webSiteUrl: String?
-): Partner(id, PartnerType.ACADEMY, name, address, isConfirmed, likes) {
+        @Embedded
+        var detail: AcademyDetail // 학원 디테일
 
+): Partner(id, PartnerType.ACADEMY, name, isConfirmed, likes, branchName, adminContact, representativeContact, businessRegistration, operationalCertification, representativeImage) {
+
+
+    // 홈 카드 변환 메서드
     override fun toHomeCard(isLiked: Boolean) = HomeCardDto.Card(
-            partnerType = PartnerType.ACADEMY,
+            partnerType = type,
             partnerId = id!!,
-            imageUrl = operationalCertification,
+            imageUrl = representativeImage,
             name = name + branchName,
-            location = address.roadAddress,
+            location = detail.address.roadAddress,
             isLiked = isLiked,
             totalLikes = getTotalLikes()
     )
 
+    // 기본 Dto 변환 메서드
     override fun toDto() = AcademyDto.AcademyRes(
             id = id,
             type = type,
             name = name,
-            address = address,
+            address = detail.address,
             isConfirmed = isConfirmed,
             totalLikes = getTotalLikes()
     )
 
+    // 학원 상세 Dto 변환 메서드
+    fun toDetailDto() = AcademyDetailDto.AcademyDetailRes(
+            id = id!!,
+            name = name,
+            grade = detail.grade,
+            subject = detail.subject,
+            subjectDetail = detail.subjectDetail,
+            category = detail.category,
+            webSiteUrl = detail.webSiteUrl,
+            address = detail.address
+    )
+}
+
+enum class AcademyType{
+
+    ACADEMY,
+    STUDY_ROOM
 }
 
 @Embeddable
 data class Address(
-     var roadAddress: String,
-     var detailAddress: String
+     var roadAddress: String, // 도로명 주소
+     var detailAddress: String // 상세 주소
+)
+
+@Embeddable
+// 학원 상세 클래스
+data class AcademyDetail(
+
+        var grade: String,
+        var subject: String,
+        var subjectDetail: String, // 세부과목
+        var category: String, // 분류
+        var webSiteUrl: String?,
+        var address: Address
 )

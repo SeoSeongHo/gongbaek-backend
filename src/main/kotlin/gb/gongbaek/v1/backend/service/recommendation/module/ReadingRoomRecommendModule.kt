@@ -31,11 +31,11 @@ class ReadingRoomRecommendModule(
         }
     }
 
-    private fun recommendTeacher() = partnerService.getPartnersByType(PartnerType.STUDY_ROOM)
+    private fun recommendTeacher() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
 
-    private fun recommendHighQuality() = partnerService.getPartnersByType(PartnerType.STUDY_ROOM)
+    private fun recommendHighQuality() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
 
-    private fun recommendCheap() = partnerService.getPartnersByType(PartnerType.STUDY_ROOM)
+    private fun recommendCheap() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
 
-    private fun recommendDiscuss() = partnerService.getPartnersByType(PartnerType.STUDY_ROOM)
+    private fun recommendDiscuss() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
 }

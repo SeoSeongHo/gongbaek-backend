@@ -15,7 +15,7 @@ class PartnerServiceImpl(
 ): PartnerService {
 
     override fun getPartnerById(partnerId: Long): Partner =
-        partnerRepository.findById(partnerId).orElseThrow { throw PartnerNotFoundException("") }
+        partnerRepository.findById(partnerId).orElseThrow { throw PartnerNotFoundException("can not find partner. id: $partnerId") }
 
     override fun getPartnersByType(partnerType: PartnerType): List<Partner> =
         partnerRepository.findByType(partnerType)

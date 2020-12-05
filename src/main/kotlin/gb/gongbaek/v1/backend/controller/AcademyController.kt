@@ -1,11 +1,11 @@
 package gb.gongbaek.v1.backend.controller
 
-import gb.gongbaek.v1.backend.dto.partner.AcademyDto
+import gb.gongbaek.v1.backend.dto.partner.academy.AcademyDto
 import gb.gongbaek.v1.backend.dto.partner.PartnerDto
+import gb.gongbaek.v1.backend.dto.partner.academy.AcademyDetailDto
 import gb.gongbaek.v1.backend.service.partner.academy.AcademyService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -43,13 +43,19 @@ class AcademyController(
                 .body(academy.toDto())
     }
 
+    @GetMapping("/{id}/detail")
+    fun getAcademyDetail(@PathVariable id: Long): ResponseEntity<AcademyDetailDto.AcademyDetailRes>{
+
+        val academyDetail = academyService.getAcademyDetail(id)
+
+        return ResponseEntity
+                .ok()
+                .body(academyDetail)
+    }
+
+
     @PostMapping("/confirm/{id}")
     fun confirmAcademy(@PathVariable id: Long){
         academyService.confirmAcademy(id)
-    }
-
-    @PostMapping("/{id}")
-    fun updateAcademy(@PathVariable id: Long, @RequestBody updateAcademyReq: AcademyDto.UpdateAcademyReq){
-
     }
 }

@@ -18,12 +18,20 @@ abstract class Partner(
         @Enumerated(EnumType.STRING)
         open val type: PartnerType,
         open val name: String,
-        @Embedded
-        open val address: Address,
         open var isConfirmed: Boolean,
         @JsonIgnore
         @OneToMany(mappedBy = "partner")
-        open var likes: MutableList<Like> = mutableListOf()
+        open var likes: MutableList<Like> = mutableListOf(),
+
+        open var branchName: String? = null, // 지점명
+        open var adminContact: String, // 연락처, 괸리자 컨택용
+        open var representativeContact: String, // 대표 번호, 유저 공개용
+
+        open var businessRegistration: String? = null, // 사업자 등록증
+
+        open var operationalCertification: List<String>?, // 운영 인증, 유저 공개용
+        open var representativeImage: String // 홈카드 대표 사진, 유저 공개용
+
         //@JsonIgnore
         //@OneToMany(mappedBy = "partner")
         //open var hashTags: MutableList<HashTag> = mutableListOf()
