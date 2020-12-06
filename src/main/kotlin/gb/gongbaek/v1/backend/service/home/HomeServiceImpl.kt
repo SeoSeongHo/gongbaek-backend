@@ -56,6 +56,5 @@ class HomeServiceImpl(
                                 if(userId != null) likeService.existsLikeByUserIdAndPartnerId(userId, partner.id!!)
                                 else false ) }
         )
-
     }
 }

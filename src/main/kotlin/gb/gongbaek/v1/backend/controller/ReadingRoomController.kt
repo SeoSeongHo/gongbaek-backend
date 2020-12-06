@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/readingRoom")
+@RequestMapping("/api/v1/readingRooms")
 class ReadingRoomController(
         @Autowired private val readingRoomService: ReadingRoomService
 ) {
