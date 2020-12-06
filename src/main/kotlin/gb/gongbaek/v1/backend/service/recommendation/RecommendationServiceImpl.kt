@@ -18,10 +18,10 @@ class RecommendationServiceImpl(
 ): RecommendationService {
 
     override fun getRecommendation(id: Long): Recommendation =
-            recommendationRepository.findById(id).orElseThrow { throw RecommendationNotFoundException("") }
+            recommendationRepository.findById(id).orElseThrow { throw RecommendationNotFoundException("can not find recommendation. id: $id") }
 
     override fun getRecommendationByTitle(title: RecommendTitle): Recommendation =
-            recommendationRepository.findByTitle(title) ?: throw RecommendationNotFoundException("")
+            recommendationRepository.findByTitle(title) ?: throw RecommendationNotFoundException("can not find recommendation. title: $title")
 
     override fun getRecommendationByCategory(category: RecommendCategory): List<Recommendation> =
             recommendationRepository.findByCategory(category)
@@ -29,14 +29,5 @@ class RecommendationServiceImpl(
     fun create(recommendationReq: RecommendationDto.RecommendationReq){
 
         recommendationRepository.save(recommendationReq.toEntity())
-    }
-
-    fun update(recommendationReq: RecommendationDto.RecommendationReq){
-
-        val recommendation = getRecommendationByTitle(recommendationReq.title)
-
-        recommendation.category = recommendationReq.category
-        recommendation.title = recommendationReq.title
-        recommendation.description = recommendationReq.description
     }
 }
