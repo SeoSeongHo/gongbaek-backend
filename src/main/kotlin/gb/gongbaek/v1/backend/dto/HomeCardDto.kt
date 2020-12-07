@@ -41,20 +41,23 @@ enum class RecommendCategory{
 enum class RecommendTitle{
     // TODAY -------
     AI_PICK,
-    FRIEND_PICK,
+    PEER_PICK,
     MD_PICK,
     POPULAR_PICK,
+    BEST,
+    FAVORITE,
 
     // ACADEMY --------
-    MY_FAVORITE,
+    PREFERENCE,
     NEIGHBORHOOD,
     FEW_ELITE,
-    CLOSED_COACH,
+    CLOSE_COACH,
     SINGLE_SUBJECT,
 
     // READING ROOM --------
-    DISCUSS,
+    STUDY_CAFE,
     CHEAP,
-    HIGH_QUALITY,
-    TEACHER
+    PREMIUM,
+    MANAGERMENT,
+    LOCAL_STUDYROOM
 }

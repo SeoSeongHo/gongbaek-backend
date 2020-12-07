@@ -1,5 +1,6 @@
 package gb.gongbaek.v1.backend.dto.partner.academy
 
+import gb.gongbaek.v1.backend.domain.hashtag.Hashtag
 import gb.gongbaek.v1.backend.domain.partner.Academy
 import gb.gongbaek.v1.backend.domain.partner.AcademyDetail
 import gb.gongbaek.v1.backend.domain.partner.AcademyType
@@ -19,7 +20,7 @@ class AcademyDto {
 
             val businessRegistration: String,
 
-            val operationalCertification: List<String>?,
+            val operationalCertification: String?,
             val representativeImage: String,
 
             val academyType: AcademyType,
@@ -29,33 +30,10 @@ class AcademyDto {
             val subjectDetail: String,
             val category: String,
             val webSiteUrl: String?,
-            val address: Address
+            val address: Address,
 
-            //val hashTags: MutableList<HashTag>
-    ){
-        fun toEntity() = Academy(
-                name = name,
-                isConfirmed = false,
-                likes = mutableListOf(),
-                branchName = branchName,
-                adminContact = adminContact,
-                representativeContact = representativeContact,
-                businessRegistration = businessRegistration,
-                //hashTags = hashTags,
-                operationalCertification = operationalCertification,
-                representativeImage = representativeImage,
-                academyType = academyType,
-
-                detail = AcademyDetail(
-                        grade = grade,
-                        subject = subject,
-                        subjectDetail = subjectDetail,
-                        category = category,
-                        webSiteUrl = webSiteUrl,
-                        address = address
-                )
-        )
-    }
+            val hashtagIds: List<Long>
+    )
 
     data class AcademyRes(
             override val id: Long? = null,

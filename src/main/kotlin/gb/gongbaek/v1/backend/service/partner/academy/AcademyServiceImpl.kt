@@ -1,5 +1,6 @@
 package gb.gongbaek.v1.backend.service.partner.academy
 
+import gb.gongbaek.v1.backend.domain.hashtag.PartnerHashtag
 import gb.gongbaek.v1.backend.domain.partner.Academy
 import gb.gongbaek.v1.backend.domain.partner.Partner
 import gb.gongbaek.v1.backend.dto.PartnerType
@@ -8,6 +9,7 @@ import gb.gongbaek.v1.backend.dto.partner.academy.AcademyDto
 import gb.gongbaek.v1.backend.exception.AcademyNotFoundException
 import gb.gongbaek.v1.backend.repository.AcademyRepository
 import gb.gongbaek.v1.backend.service.partner.PartnerService
+import gb.gongbaek.v1.backend.service.partner.hashtag.HashtagService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,8 +17,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class AcademyServiceImpl(
+        @Autowired private val academyRepository: AcademyRepository,
         @Autowired private val partnerService: PartnerService,
-        @Autowired private val academyRepository: AcademyRepository
+        @Autowired private val hashtagService: HashtagService
 ): AcademyService {
 
     override fun getAcademy(academyId: Long): Academy{
@@ -33,7 +36,11 @@ class AcademyServiceImpl(
     }
 
     override fun createAcademy(createAcademyReq: AcademyDto.CreateAcademyReq): Partner {
-        return partnerService.createPartner(createAcademyReq.toEntity())
+
+        val hashtags = hashtagService.getHashtagsByIds(createAcademyReq.hashtagIds)
+        val partnerHashtags = hashtags.map { hashtag -> PartnerHashtag.createPartnerHashtag(hashtag) }.toMutableList()
+        val academy = Academy.createAcademy(createAcademyReq, partnerHashtags)
+        return academyRepository.save(academy)
     }
 
     override fun confirmAcademy(academyId: Long){

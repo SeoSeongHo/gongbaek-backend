@@ -11,6 +11,7 @@ class ReadingRoomDetailDto{
             val name: String,
             var category: String, // 분류
             var webSiteUrl: String?,
-            var address: Address
+            var address: Address,
+            var hashtags: List<String>
     )
 }

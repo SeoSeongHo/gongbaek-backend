@@ -23,19 +23,22 @@ class ReadingRoomRecommendModule(
     override fun getPartners(recommendTitle: RecommendTitle): List<Partner>{
 
         return when(recommendTitle){
-            RecommendTitle.DISCUSS -> recommendDiscuss()
+            RecommendTitle.STUDY_CAFE -> recommendStudyCafe()
             RecommendTitle.CHEAP -> recommendCheap()
-            RecommendTitle.HIGH_QUALITY -> recommendHighQuality()
-            RecommendTitle.TEACHER -> recommendTeacher()
+            RecommendTitle.PREMIUM -> recommendPremium()
+            RecommendTitle.MANAGERMENT -> recommendManagerment()
+            RecommendTitle.LOCAL_STUDYROOM -> recommendLocalStudyRoom()
             else -> throw WrongRecommendTitleException("wrong recommend title on reading room tab. $recommendTitle")
         }
     }
 
-    private fun recommendTeacher() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
-
-    private fun recommendHighQuality() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
+    private fun recommendStudyCafe() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
 
     private fun recommendCheap() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
 
-    private fun recommendDiscuss() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
+    private fun recommendPremium() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
+
+    private fun recommendManagerment() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
+
+    private fun recommendLocalStudyRoom() = partnerService.getPartnersByType(PartnerType.READING_ROOM)
 }

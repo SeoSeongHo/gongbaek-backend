@@ -21,18 +21,24 @@ class TodayRecommendModule(
 
         return when(recommendTitle){
             RecommendTitle.AI_PICK -> recommendAIPick()
-            RecommendTitle.FRIEND_PICK -> recommendFriendPick()
+            RecommendTitle.PEER_PICK -> recommendPeerPick()
             RecommendTitle.MD_PICK -> recommendMDPick()
             RecommendTitle.POPULAR_PICK -> recommendPopularPick()
+            RecommendTitle.BEST -> recommendBest()
+            RecommendTitle.FAVORITE -> recommendFavorite()
             else -> throw WrongRecommendTitleException("wrong recommend title on today tab. $recommendTitle")
         }
     }
 
     private fun recommendAIPick() = partnerService.getPartnersByType(PartnerType.ACADEMY)
 
-    private fun recommendFriendPick() = partnerService.getPartnersByType(PartnerType.ACADEMY)
+    private fun recommendPeerPick() = partnerService.getPartnersByType(PartnerType.ACADEMY)
 
     private fun recommendPopularPick() = partnerService.getPartnersByType(PartnerType.ACADEMY)
 
     private fun recommendMDPick() = partnerService.getPartnersByType(PartnerType.ACADEMY)
+
+    private fun recommendBest() = partnerService.getPartnersByType(PartnerType.ACADEMY)
+
+    private fun recommendFavorite() = partnerService.getPartnersByType(PartnerType.ACADEMY)
 }

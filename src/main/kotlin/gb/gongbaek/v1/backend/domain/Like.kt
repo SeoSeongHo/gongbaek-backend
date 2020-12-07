@@ -17,7 +17,7 @@ data class Like (
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "partner_id")
         var partner: Partner
-){
+): EntityAuditing() {
         companion object{
                 fun toLike(user: User, partner: Partner) = Like(
                         user = user,

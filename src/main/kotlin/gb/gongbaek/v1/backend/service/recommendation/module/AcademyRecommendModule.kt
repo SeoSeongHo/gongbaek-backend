@@ -20,22 +20,22 @@ class AcademyRecommendModule(
     override fun getPartners(recommendTitle: RecommendTitle): List<Partner>{
 
         return when(recommendTitle){
-            RecommendTitle.MY_FAVORITE -> recommendMyFavorite()
+            RecommendTitle.PREFERENCE -> recommendPreference()
             RecommendTitle.NEIGHBORHOOD -> recommendNeighborhood()
             RecommendTitle.FEW_ELITE -> recommendFewElite()
-            RecommendTitle.CLOSED_COACH -> recommendClosedCoach()
+            RecommendTitle.CLOSE_COACH -> recommendCloseCoach()
             RecommendTitle.SINGLE_SUBJECT -> recommendSingleSubject()
             else -> throw WrongRecommendTitleException("wrong recommend title on academy tab. $recommendTitle")
         }
     }
 
-    private fun recommendMyFavorite() = partnerService.getPartnersByType(PartnerType.ACADEMY)
+    private fun recommendPreference () = partnerService.getPartnersByType(PartnerType.ACADEMY)
 
     private fun recommendNeighborhood() = partnerService.getPartnersByType(PartnerType.ACADEMY)
 
     private fun recommendFewElite() = partnerService.getPartnersByType(PartnerType.ACADEMY)
 
-    private fun recommendClosedCoach() = partnerService.getPartnersByType(PartnerType.ACADEMY)
+    private fun recommendCloseCoach() = partnerService.getPartnersByType(PartnerType.ACADEMY)
     
     private fun recommendSingleSubject() = partnerService.getPartnersByType(PartnerType.ACADEMY)
 }

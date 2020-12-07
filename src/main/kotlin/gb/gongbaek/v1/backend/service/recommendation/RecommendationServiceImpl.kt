@@ -26,8 +26,13 @@ class RecommendationServiceImpl(
     override fun getRecommendationByCategory(category: RecommendCategory): List<Recommendation> =
             recommendationRepository.findByCategory(category)
     
-    fun create(recommendationReq: RecommendationDto.RecommendationReq){
+    override fun createRecommendation(recommendationReq: RecommendationDto.RecommendationReq){
 
         recommendationRepository.save(recommendationReq.toEntity())
+    }
+
+    override fun createRecommendations(recommendationReqs: List<RecommendationDto.RecommendationReq>){
+
+        recommendationReqs.map { recommendationReq -> recommendationRepository.save(recommendationReq.toEntity()) }
     }
 }

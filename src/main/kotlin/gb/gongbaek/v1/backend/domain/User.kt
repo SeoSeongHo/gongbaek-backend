@@ -21,7 +21,7 @@ data class User (
         var userInfo: UserInfo,
 
         @JsonIgnore
-        @OneToMany(mappedBy = "user")
+        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
         var likes: MutableList<Like> = mutableListOf()
 ): EntityAuditing() {
 

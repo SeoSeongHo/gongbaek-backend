@@ -1,5 +1,6 @@
 package gb.gongbaek.v1.backend.dto.partner.readingRoom
 
+import gb.gongbaek.v1.backend.domain.hashtag.Hashtag
 import gb.gongbaek.v1.backend.domain.partner.AcademyType
 import gb.gongbaek.v1.backend.domain.partner.Address
 import gb.gongbaek.v1.backend.domain.partner.ReadingRoom
@@ -18,12 +19,14 @@ class ReadingRoomDto {
 
             val businessRegistration: String,
 
-            val operationalCertification: List<String>?,
+            val operationalCertification: String?,
             val representativeImage: String,
 
             val category: String,
             val webSiteUrl: String?,
-            val address: Address
+            val address: Address,
+
+            val hashtagIds: List<Long>
     ){
         fun toEntity() = ReadingRoom(
                 name = name,
@@ -35,7 +38,7 @@ class ReadingRoomDto {
                 businessRegistration = businessRegistration,
                 operationalCertification = operationalCertification,
                 representativeImage = representativeImage,
-                
+
                 detail = ReadingRoomDetail(
                         category = category,
                         webSiteUrl = webSiteUrl,

@@ -1,6 +1,7 @@
 package gb.gongbaek.v1.backend.domain.partner
 
 import gb.gongbaek.v1.backend.domain.Like
+import gb.gongbaek.v1.backend.domain.hashtag.PartnerHashtag
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
 import gb.gongbaek.v1.backend.dto.partner.readingRoom.ReadingRoomDetailDto
@@ -25,13 +26,15 @@ data class ReadingRoom(
 
         override var businessRegistration: String? = null, // 사업자 등록증
 
-        override var operationalCertification: List<String>?, // 운영 인증, 유저 공개용
+        override var operationalCertification: String?, // 운영 인증, 유저 공개용
         override var representativeImage: String, // 홈카드 대표 사진, 유저 공개용
+
+        override var partnerHashtags: MutableList<PartnerHashtag> = mutableListOf(), // 해시태그
 
         @Embedded
         var detail: ReadingRoomDetail // 독서실 디테일
 
-): Partner(id, PartnerType.ACADEMY, name, isConfirmed, likes, branchName, adminContact, representativeContact, businessRegistration, operationalCertification, representativeImage) {
+): Partner(id, PartnerType.ACADEMY, name, isConfirmed, likes, branchName, adminContact, representativeContact, businessRegistration, operationalCertification, representativeImage, partnerHashtags) {
 
     // 홈 카드 변환 메서드
     override fun toHomeCard(isLiked: Boolean) = HomeCardDto.Card(
@@ -60,8 +63,45 @@ data class ReadingRoom(
             name = name,
             category = detail.category,
             webSiteUrl = detail.webSiteUrl,
-            address = detail.address
+            address = detail.address,
+            hashtags = partnerHashtags.map { ph -> ph.hashtag.name }
     )
+
+    // 파트너 해시태그 추가 메서드
+    fun addPartnerHashTag(partnerHashtag: PartnerHashtag){
+        partnerHashtags.add(partnerHashtag)
+        partnerHashtag.partner = this
+    }
+
+    companion object{
+
+        // 독서실 생성 메서드
+        fun createReadingRoom(req: ReadingRoomDto.CreateReadingRoomReq, partnerHashtags: MutableList<PartnerHashtag>): ReadingRoom{
+
+            val readingRoom = ReadingRoom(
+                    name = req.name,
+                    isConfirmed = false,
+                    likes = mutableListOf(),
+                    branchName = req.branchName,
+                    adminContact = req.adminContact,
+                    representativeContact = req.representativeContact,
+                    businessRegistration = req.businessRegistration,
+                    operationalCertification = req.operationalCertification,
+                    representativeImage = req.representativeImage,
+
+                    detail = ReadingRoomDetail(
+                            category = req.category,
+                            webSiteUrl = req.webSiteUrl,
+                            address = req.address
+                    )
+            )
+
+            partnerHashtags.map { partnerHashtag -> readingRoom.addPartnerHashTag(partnerHashtag) }
+
+            return readingRoom
+        }
+
+    }
 }
 
 @Embeddable
