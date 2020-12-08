@@ -1,5 +1,6 @@
 package gb.gongbaek.v1.backend.dto.partner.academy
 
+import gb.gongbaek.v1.backend.domain.OperationalCertification
 import gb.gongbaek.v1.backend.domain.hashtag.Hashtag
 import gb.gongbaek.v1.backend.domain.partner.Academy
 import gb.gongbaek.v1.backend.domain.partner.AcademyDetail
@@ -7,6 +8,7 @@ import gb.gongbaek.v1.backend.domain.partner.AcademyType
 import gb.gongbaek.v1.backend.domain.partner.Address
 import gb.gongbaek.v1.backend.dto.PartnerType
 import gb.gongbaek.v1.backend.dto.partner.PartnerDto
+import org.springframework.web.multipart.MultipartFile
 
 class AcademyDto {
 
@@ -18,10 +20,10 @@ class AcademyDto {
             val adminContact: String,
             val representativeContact: String,
 
-            val businessRegistration: String,
+            val businessRegistration: MultipartFile?,
 
-            val operationalCertification: String?,
-            val representativeImage: String,
+            val operationalCertification: List<MultipartFile>?,
+            val representativeImage: MultipartFile?,
 
             val academyType: AcademyType,
 
@@ -33,6 +35,12 @@ class AcademyDto {
             val address: Address,
 
             val hashtagIds: List<Long>
+    )
+
+    data class CreateAcademyImageReq(
+            val businessRegistration: String?,
+            val operationalCertification: MutableList<OperationalCertification>?,
+            val representativeImage: String?
     )
 
     data class AcademyRes(

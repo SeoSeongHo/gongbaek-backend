@@ -1,5 +1,6 @@
 package gb.gongbaek.v1.backend.dto.partner.readingRoom
 
+import gb.gongbaek.v1.backend.domain.OperationalCertification
 import gb.gongbaek.v1.backend.domain.hashtag.Hashtag
 import gb.gongbaek.v1.backend.domain.partner.AcademyType
 import gb.gongbaek.v1.backend.domain.partner.Address
@@ -7,6 +8,7 @@ import gb.gongbaek.v1.backend.domain.partner.ReadingRoom
 import gb.gongbaek.v1.backend.domain.partner.ReadingRoomDetail
 import gb.gongbaek.v1.backend.dto.PartnerType
 import gb.gongbaek.v1.backend.dto.partner.PartnerDto
+import org.springframework.web.multipart.MultipartFile
 
 class ReadingRoomDto {
 
@@ -17,36 +19,23 @@ class ReadingRoomDto {
             val adminContact: String,
             val representativeContact: String,
 
-            val businessRegistration: String,
+            val businessRegistration: MultipartFile?,
 
-            val operationalCertification: String?,
-            val representativeImage: String,
+            val operationalCertification: List<MultipartFile>?,
+            val representativeImage: MultipartFile?,
 
             val category: String,
             val webSiteUrl: String?,
             val address: Address,
 
             val hashtagIds: List<Long>
-    ){
-        fun toEntity() = ReadingRoom(
-                name = name,
-                isConfirmed = false,
-                likes = mutableListOf(),
-                branchName = branchName,
-                adminContact = adminContact,
-                representativeContact = representativeContact,
-                businessRegistration = businessRegistration,
-                operationalCertification = operationalCertification,
-                representativeImage = representativeImage,
+    )
 
-                detail = ReadingRoomDetail(
-                        category = category,
-                        webSiteUrl = webSiteUrl,
-                        address = address
-                )
-                
-        )
-    }
+    data class CreateReadingRoomImageReq(
+            val businessRegistration: String?,
+            val operationalCertification: MutableList<OperationalCertification>?,
+            val representativeImage: String?
+    )
 
     data class ReadingRoomRes(
             override val id: Long? = null,

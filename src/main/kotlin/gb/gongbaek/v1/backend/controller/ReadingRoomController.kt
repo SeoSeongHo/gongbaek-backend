@@ -5,6 +5,7 @@ import gb.gongbaek.v1.backend.dto.partner.readingRoom.ReadingRoomDetailDto
 import gb.gongbaek.v1.backend.dto.partner.readingRoom.ReadingRoomDto
 import gb.gongbaek.v1.backend.service.partner.readingRoom.ReadingRoomService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -44,8 +45,8 @@ class ReadingRoomController(
                 .body(readingRoomDetail)
     }
 
-    @PostMapping
-    fun createReadingRoom(@RequestBody readingRoomReq: ReadingRoomDto.CreateReadingRoomReq): ResponseEntity<PartnerDto>{
+    @PostMapping(consumes = [ MediaType.MULTIPART_FORM_DATA_VALUE ])
+    fun createReadingRoom(readingRoomReq: ReadingRoomDto.CreateReadingRoomReq): ResponseEntity<PartnerDto>{
 
         val readingRoom = readingRoomService.createReadingRoom(readingRoomReq)
 

@@ -17,11 +17,7 @@ import javax.transaction.Transactional
 @Transactional
 class BannerServiceImpl(
         @Autowired private val bannerRepository: BannerRepository,
-        @Autowired private val amazonS3Client: AmazonS3,
-        @Value("\${aws.s3.img.banner.bucket}")
-        private val bucketName: String,
-        @Value("\${aws.s3.img.banner.dir}")
-        private val dirName: String
+        @Autowired private val amazonS3Client: AmazonS3
 ): BannerService{
 
     fun getBanner(id: Long): Banner{
@@ -41,15 +37,15 @@ class BannerServiceImpl(
 
     override fun createBanner(platform: Platform, bannerReq: BannerDto.BannerReq): BannerDto.BannerRes{
 
-        val s3Uploader = S3Uploader(amazonS3Client, bucketName, dirName)
+        val s3Uploader = S3Uploader(amazonS3Client)
+
         try{
-            val imageUrl: String? = s3Uploader.upload(bannerReq.image!!) ?: throw ImageUploadException("failed to upload image to s3.")
+            val imageUrl: String? = s3Uploader.upload(bannerReq.image!!, "gongbaek.static.io", "banners") ?: throw ImageUploadException("failed to upload banner image to s3.")
             val createdBanner = bannerRepository.save(bannerReq.toEntity(imageUrl!!, platform))
             return createdBanner.toDto()
         }
         catch(e: Exception){
             throw ImageUploadException("failed to upload image to s3.")
         }
-
     }
 }

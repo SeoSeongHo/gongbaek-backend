@@ -5,6 +5,7 @@ import gb.gongbaek.v1.backend.dto.partner.PartnerDto
 import gb.gongbaek.v1.backend.dto.partner.academy.AcademyDetailDto
 import gb.gongbaek.v1.backend.service.partner.academy.AcademyService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -44,8 +45,8 @@ class AcademyController(
                 .body(academyDetail)
     }
 
-    @PostMapping
-    fun createAcademy(@RequestBody academyReq: AcademyDto.CreateAcademyReq): ResponseEntity<PartnerDto>{
+    @PostMapping(consumes = [ MediaType.MULTIPART_FORM_DATA_VALUE ] )
+    fun createAcademy(academyReq: AcademyDto.CreateAcademyReq): ResponseEntity<PartnerDto>{
         val academy = academyService.createAcademy(academyReq)
 
         return ResponseEntity

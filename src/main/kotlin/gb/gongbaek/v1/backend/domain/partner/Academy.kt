@@ -1,15 +1,13 @@
 package gb.gongbaek.v1.backend.domain.partner
 
 import gb.gongbaek.v1.backend.domain.Like
+import gb.gongbaek.v1.backend.domain.OperationalCertification
 import gb.gongbaek.v1.backend.domain.hashtag.PartnerHashtag
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
 import gb.gongbaek.v1.backend.dto.partner.academy.AcademyDetailDto
 import gb.gongbaek.v1.backend.dto.partner.academy.AcademyDto
-import javax.persistence.DiscriminatorValue
-import javax.persistence.Embeddable
-import javax.persistence.Embedded
-import javax.persistence.Entity
+import javax.persistence.*
 
 @Entity
 @DiscriminatorValue("A")
@@ -26,8 +24,8 @@ data class Academy (
 
         override var businessRegistration: String? = null, // 사업자 등록증
 
-        override var operationalCertification: String?, // 운영 인증, 유저 공개용
-        override var representativeImage: String, // 홈카드 대표 사진, 유저 공개용
+        override var operationalCertification: MutableList<OperationalCertification>?, // 운영 인증, 유저 공개용
+        override var representativeImage: String?, // 홈카드 대표 사진, 유저 공개용
 
         override var partnerHashtags: MutableList<PartnerHashtag> = mutableListOf(), // 해시태그
 
@@ -43,7 +41,7 @@ data class Academy (
     override fun toHomeCard(isLiked: Boolean) = HomeCardDto.Card(
             partnerType = type,
             partnerId = id!!,
-            imageUrl = representativeImage,
+            imageUrl = representativeImage!!,
             name = name + branchName,
             location = detail.address.roadAddress,
             isLiked = isLiked,
@@ -82,7 +80,7 @@ data class Academy (
     companion object{
 
         // 학원 생성 메서드
-        fun createAcademy(req: AcademyDto.CreateAcademyReq, partnerHashtags: MutableList<PartnerHashtag>): Academy{
+        fun createAcademy(req: AcademyDto.CreateAcademyReq, imageReq: AcademyDto.CreateAcademyImageReq, partnerHashtags: MutableList<PartnerHashtag>): Academy{
 
             val academy = Academy(
                     name = req.name,
@@ -91,9 +89,9 @@ data class Academy (
                     branchName = req.branchName,
                     adminContact = req.adminContact,
                     representativeContact = req.representativeContact,
-                    businessRegistration = req.businessRegistration,
-                    operationalCertification = req.operationalCertification,
-                    representativeImage = req.representativeImage,
+                    businessRegistration = imageReq.businessRegistration,
+                    operationalCertification = imageReq.operationalCertification,
+                    representativeImage = imageReq.representativeImage,
 
                     academyType = AcademyType.ACADEMY,
                     detail = AcademyDetail(

@@ -3,6 +3,7 @@ package gb.gongbaek.v1.backend.domain.partner
 import com.fasterxml.jackson.annotation.JsonIgnore
 import gb.gongbaek.v1.backend.domain.EntityAuditing
 import gb.gongbaek.v1.backend.domain.Like
+import gb.gongbaek.v1.backend.domain.OperationalCertification
 import gb.gongbaek.v1.backend.domain.hashtag.PartnerHashtag
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
@@ -31,8 +32,9 @@ abstract class Partner(
 
         open var businessRegistration: String?, // 사업자 등록증
 
-        open var operationalCertification: String?, // 운영 인증, 유저 공개용
-        open var representativeImage: String, // 홈카드 대표 사진, 유저 공개용
+        @OneToMany
+        open var operationalCertification: MutableList<OperationalCertification>?, // 운영 인증, 유저 공개용
+        open var representativeImage: String?, // 홈카드 대표 사진, 유저 공개용
 
         @JsonIgnore
         @OneToMany(mappedBy = "partner")

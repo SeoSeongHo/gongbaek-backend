@@ -12,26 +12,24 @@ import java.io.*
 import java.util.*
 
 class S3Uploader(
-        private val amazonS3Client: AmazonS3,
-        private val bucketName: String,
-        private val dirName: String
+        private val amazonS3Client: AmazonS3
 ) {
 
     @Throws(IOException::class)
-    fun upload(multipartFile: MultipartFile): String? {
+    fun upload(multipartFile: MultipartFile, bucketName: String, dirName: String): String? {
         val uploadFile: File = convert(multipartFile)
                 .orElseThrow { IllegalArgumentException("Converting MultipartFile to File failed") }
-        return upload(uploadFile)
+        return upload(uploadFile, bucketName, dirName)
     }
 
-    private fun upload(uploadFile: File): String? {
+    private fun upload(uploadFile: File, bucketName: String, dirName: String): String? {
         val fileName = dirName + "/" + uploadFile.name
-        val uploadImageUrl = putS3(uploadFile, fileName)
+        val uploadImageUrl = putS3(uploadFile, bucketName, fileName)
         removeNewFile(uploadFile)
         return uploadImageUrl
     }
 
-    private fun putS3(uploadFile: File?, fileName: String?): String? {
+    private fun putS3(uploadFile: File?, bucketName: String, fileName: String?): String? {
         amazonS3Client.putObject(PutObjectRequest(bucketName, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead))
         return amazonS3Client.getUrl(bucketName, fileName).toString()
     }
@@ -48,20 +46,5 @@ class S3Uploader(
             return Optional.of(convertFile)
         }
         return Optional.empty()
-    }
-
-    // TODO
-    fun get(bucketName: String, keyName: String){
-
-        val findObject = amazonS3Client.getObject(GetObjectRequest(bucketName, keyName))
-
-
-    }
-
-    @Throws(IOException::class)
-    private fun readInputStream(input: InputStream){
-
-        val reader = BufferedReader(InputStreamReader(input))
-
     }
 }

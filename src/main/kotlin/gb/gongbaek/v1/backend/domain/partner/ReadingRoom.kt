@@ -1,15 +1,14 @@
 package gb.gongbaek.v1.backend.domain.partner
 
 import gb.gongbaek.v1.backend.domain.Like
+import gb.gongbaek.v1.backend.domain.OperationalCertification
 import gb.gongbaek.v1.backend.domain.hashtag.PartnerHashtag
 import gb.gongbaek.v1.backend.dto.HomeCardDto
 import gb.gongbaek.v1.backend.dto.PartnerType
+import gb.gongbaek.v1.backend.dto.partner.academy.AcademyDto
 import gb.gongbaek.v1.backend.dto.partner.readingRoom.ReadingRoomDetailDto
 import gb.gongbaek.v1.backend.dto.partner.readingRoom.ReadingRoomDto
-import javax.persistence.DiscriminatorValue
-import javax.persistence.Embeddable
-import javax.persistence.Embedded
-import javax.persistence.Entity
+import javax.persistence.*
 
 @Entity
 @DiscriminatorValue("R")
@@ -26,8 +25,9 @@ data class ReadingRoom(
 
         override var businessRegistration: String? = null, // 사업자 등록증
 
-        override var operationalCertification: String?, // 운영 인증, 유저 공개용
-        override var representativeImage: String, // 홈카드 대표 사진, 유저 공개용
+        @OneToMany
+        override var operationalCertification: MutableList<OperationalCertification>?, // 운영 인증, 유저 공개용
+        override var representativeImage: String?, // 홈카드 대표 사진, 유저 공개용
 
         override var partnerHashtags: MutableList<PartnerHashtag> = mutableListOf(), // 해시태그
 
@@ -40,7 +40,7 @@ data class ReadingRoom(
     override fun toHomeCard(isLiked: Boolean) = HomeCardDto.Card(
             partnerType = PartnerType.ACADEMY,
             partnerId = id!!,
-            imageUrl = representativeImage,
+            imageUrl = representativeImage!!,
             name = name,
             location = detail.address.roadAddress,
             isLiked = isLiked,
@@ -76,7 +76,7 @@ data class ReadingRoom(
     companion object{
 
         // 독서실 생성 메서드
-        fun createReadingRoom(req: ReadingRoomDto.CreateReadingRoomReq, partnerHashtags: MutableList<PartnerHashtag>): ReadingRoom{
+        fun createReadingRoom(req: ReadingRoomDto.CreateReadingRoomReq, imageReq: ReadingRoomDto.CreateReadingRoomImageReq, partnerHashtags: MutableList<PartnerHashtag>): ReadingRoom{
 
             val readingRoom = ReadingRoom(
                     name = req.name,
@@ -85,9 +85,9 @@ data class ReadingRoom(
                     branchName = req.branchName,
                     adminContact = req.adminContact,
                     representativeContact = req.representativeContact,
-                    businessRegistration = req.businessRegistration,
-                    operationalCertification = req.operationalCertification,
-                    representativeImage = req.representativeImage,
+                    businessRegistration = imageReq.businessRegistration,
+                    operationalCertification = imageReq.operationalCertification,
+                    representativeImage = imageReq.representativeImage,
 
                     detail = ReadingRoomDetail(
                             category = req.category,
