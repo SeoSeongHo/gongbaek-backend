@@ -3,9 +3,9 @@ package gb.gongbaek.v1.backend.service.recommendation.module
 import gb.gongbaek.v1.backend.domain.Recommendation
 import gb.gongbaek.v1.backend.domain.partner.Partner
 import gb.gongbaek.v1.backend.dto.PartnerType
+import gb.gongbaek.v1.backend.dto.RecommendTab
 import gb.gongbaek.v1.backend.dto.RecommendCategory
-import gb.gongbaek.v1.backend.dto.RecommendTitle
-import gb.gongbaek.v1.backend.exception.WrongRecommendTitleException
+import gb.gongbaek.v1.backend.exception.WrongRecommendCategoryException
 import gb.gongbaek.v1.backend.service.partner.PartnerService
 import gb.gongbaek.v1.backend.service.recommendation.RecommendationService
 
@@ -15,17 +15,17 @@ class AcademyRecommendModule(
 ): BaseRecommendModule() {
 
     override fun getRecommendations(): List<Recommendation> =
-            recommendationService.getRecommendationByCategory(RecommendCategory.ACADEMY)
+            recommendationService.getRecommendationByCategory(RecommendTab.ACADEMY)
 
-    override fun getPartners(recommendTitle: RecommendTitle): List<Partner>{
+    override fun getPartners(recommendCategory: RecommendCategory): List<Partner>{
 
-        return when(recommendTitle){
-            RecommendTitle.PREFERENCE -> recommendPreference()
-            RecommendTitle.NEIGHBORHOOD -> recommendNeighborhood()
-            RecommendTitle.FEW_ELITE -> recommendFewElite()
-            RecommendTitle.CLOSE_COACH -> recommendCloseCoach()
-            RecommendTitle.SINGLE_SUBJECT -> recommendSingleSubject()
-            else -> throw WrongRecommendTitleException("wrong recommend title on academy tab. $recommendTitle")
+        return when(recommendCategory){
+            RecommendCategory.PREFERENCE -> recommendPreference()
+            RecommendCategory.NEIGHBORHOOD -> recommendNeighborhood()
+            RecommendCategory.FEW_ELITE -> recommendFewElite()
+            RecommendCategory.CLOSE_COACH -> recommendCloseCoach()
+            RecommendCategory.SINGLE_SUBJECT -> recommendSingleSubject()
+            else -> throw WrongRecommendCategoryException("wrong recommend title on academy tab. $recommendCategory")
         }
     }
 

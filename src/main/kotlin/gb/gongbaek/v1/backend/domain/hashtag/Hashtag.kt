@@ -8,9 +8,11 @@ import javax.persistence.*
 data class Hashtag(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null,
+        @Column(unique = true)
         var name: String,
 
         @JsonIgnore
-        @OneToMany(mappedBy = "hashtag")
-        open var partnerHashtags: MutableList<PartnerHashtag> = mutableListOf()
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "category_id")
+        var category: Category
 ): EntityAuditing()

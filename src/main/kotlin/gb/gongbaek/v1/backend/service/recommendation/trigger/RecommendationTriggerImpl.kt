@@ -1,6 +1,6 @@
 package gb.gongbaek.v1.backend.service.recommendation.trigger
 
-import gb.gongbaek.v1.backend.dto.RecommendCategory
+import gb.gongbaek.v1.backend.dto.RecommendTab
 import gb.gongbaek.v1.backend.service.partner.PartnerService
 import gb.gongbaek.v1.backend.service.recommendation.RecommendationService
 import gb.gongbaek.v1.backend.service.recommendation.module.*
@@ -14,12 +14,12 @@ class RecommendationTriggerImpl(
         @Autowired private val recommendationService: RecommendationService
 ): RecommendationTrigger {
 
-    override fun getRecommendModule(category: RecommendCategory): BaseRecommendModule{
+    override fun getRecommendModule(category: RecommendTab): BaseRecommendModule{
 
         return when(category){
-            RecommendCategory.ACADEMY -> AcademyRecommendModule(partnerService, recommendationService)
-            RecommendCategory.READING_ROOM -> ReadingRoomRecommendModule(partnerService, recommendationService)
-            RecommendCategory.TODAY -> TodayRecommendModule(partnerService, recommendationService)
+            RecommendTab.ACADEMY -> AcademyRecommendModule(partnerService, recommendationService)
+            RecommendTab.READING_ROOM -> ReadingRoomRecommendModule(partnerService, recommendationService)
+            RecommendTab.TODAY -> TodayRecommendModule(partnerService, recommendationService)
         }
     }
 }

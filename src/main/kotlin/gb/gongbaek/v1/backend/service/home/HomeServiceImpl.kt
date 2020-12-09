@@ -19,7 +19,7 @@ class HomeServiceImpl(
 ): HomeService {
 
     // 단일 category 에 대한 home card 반환
-    override fun getCards(category: RecommendCategory, userId: Long?): List<HomeCardDto.HomeCardRes> {
+    override fun getCards(category: RecommendTab, userId: Long?): List<HomeCardDto.HomeCardRes> {
 
         // category 에 맞는 recommend module 가져오기
         val recommendModule = recommendationTrigger.getRecommendModule(category)
@@ -39,7 +39,7 @@ class HomeServiceImpl(
     }
 
     // 단일 title 에 대한 home card 반환
-    override fun getCards(category: RecommendCategory, title: RecommendTitle, userId: Long?): HomeCardDto.HomeCardRes{
+    override fun getCards(category: RecommendTab, title: RecommendCategory, userId: Long?): HomeCardDto.HomeCardRes{
 
         // category 에 맞는 recommend module 가져오기
         val recommendModule = recommendationTrigger.getRecommendModule(category)

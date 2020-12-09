@@ -1,8 +1,8 @@
 package gb.gongbaek.v1.backend.controller.web
 
 import gb.gongbaek.v1.backend.dto.HomeCardDto
+import gb.gongbaek.v1.backend.dto.RecommendTab
 import gb.gongbaek.v1.backend.dto.RecommendCategory
-import gb.gongbaek.v1.backend.dto.RecommendTitle
 import gb.gongbaek.v1.backend.dto.auth.AuthPrincipal
 import gb.gongbaek.v1.backend.service.home.HomeService
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +20,7 @@ class WebHomeController(
 ) {
 
     @GetMapping("/{category}")
-    fun getCards(@PathVariable category: RecommendCategory): ResponseEntity<List<HomeCardDto.HomeCardRes>>{
+    fun getCards(@PathVariable category: RecommendTab): ResponseEntity<List<HomeCardDto.HomeCardRes>>{
 
         val cards = homeService.getCards(category, null)
 
@@ -31,7 +31,7 @@ class WebHomeController(
 
     // category, title 에 대한 home card 반환
     @GetMapping("/{category}/recommend/{title}")
-    fun getCardsByTitle(@PathVariable category: RecommendCategory, @PathVariable title: RecommendTitle): ResponseEntity<HomeCardDto.HomeCardRes>{
+    fun getCardsByTitle(@PathVariable category: RecommendTab, @PathVariable title: RecommendCategory): ResponseEntity<HomeCardDto.HomeCardRes>{
 
         val cards = homeService.getCards(category, title, null)
 

@@ -3,9 +3,9 @@ package gb.gongbaek.v1.backend.service.recommendation.module
 import gb.gongbaek.v1.backend.domain.Recommendation
 import gb.gongbaek.v1.backend.domain.partner.Partner
 import gb.gongbaek.v1.backend.dto.PartnerType
+import gb.gongbaek.v1.backend.dto.RecommendTab
 import gb.gongbaek.v1.backend.dto.RecommendCategory
-import gb.gongbaek.v1.backend.dto.RecommendTitle
-import gb.gongbaek.v1.backend.exception.WrongRecommendTitleException
+import gb.gongbaek.v1.backend.exception.WrongRecommendCategoryException
 import gb.gongbaek.v1.backend.service.partner.PartnerService
 import gb.gongbaek.v1.backend.service.recommendation.RecommendationService
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,17 +18,17 @@ class ReadingRoomRecommendModule(
 ): BaseRecommendModule() {
 
     override fun getRecommendations(): List<Recommendation> =
-            recommendationService.getRecommendationByCategory(RecommendCategory.READING_ROOM)
+            recommendationService.getRecommendationByCategory(RecommendTab.READING_ROOM)
 
-    override fun getPartners(recommendTitle: RecommendTitle): List<Partner>{
+    override fun getPartners(recommendCategory: RecommendCategory): List<Partner>{
 
-        return when(recommendTitle){
-            RecommendTitle.STUDY_CAFE -> recommendStudyCafe()
-            RecommendTitle.CHEAP -> recommendCheap()
-            RecommendTitle.PREMIUM -> recommendPremium()
-            RecommendTitle.MANAGERMENT -> recommendManagerment()
-            RecommendTitle.LOCAL_STUDYROOM -> recommendLocalStudyRoom()
-            else -> throw WrongRecommendTitleException("wrong recommend title on reading room tab. $recommendTitle")
+        return when(recommendCategory){
+            RecommendCategory.STUDY_CAFE -> recommendStudyCafe()
+            RecommendCategory.CHEAP -> recommendCheap()
+            RecommendCategory.PREMIUM -> recommendPremium()
+            RecommendCategory.MANAGEMENT -> recommendManagerment()
+            RecommendCategory.LOCAL_STUDY_ROOM -> recommendLocalStudyRoom()
+            else -> throw WrongRecommendCategoryException("wrong recommend title on reading room tab. $recommendCategory")
         }
     }
 

@@ -8,7 +8,7 @@ class HomeCardDto {
     data class HomeCardRes(
 
             @Enumerated(EnumType.STRING)
-            var title: RecommendTitle,
+            var title: RecommendCategory,
             var description: String,
             var cards: List<Card>
     )
@@ -32,13 +32,13 @@ enum class PartnerType {
     //STORE
 }
 
-enum class RecommendCategory{
+enum class RecommendTab{
     TODAY,
     ACADEMY,
     READING_ROOM,
 }
 
-enum class RecommendTitle{
+enum class RecommendCategory{
     // TODAY -------
     AI_PICK,
     PEER_PICK,
@@ -58,6 +58,6 @@ enum class RecommendTitle{
     STUDY_CAFE,
     CHEAP,
     PREMIUM,
-    MANAGERMENT,
-    LOCAL_STUDYROOM
+    MANAGEMENT,
+    LOCAL_STUDY_ROOM
 }
